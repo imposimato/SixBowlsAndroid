@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SixBowls</string>
+    <string name="currency">€</string>
+    <string name="save">Save</string>
+    <string name="cred">Credit</string>
+    <string name="debit">Debit</string>
+</resources>
