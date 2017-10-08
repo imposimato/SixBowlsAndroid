@@ -27,7 +27,7 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentRight="true"
         android:onClick="setDate"
-        android:text="Date"
+        android:text="@string/dateButton"
         android:textSize="20sp" />
 
     <EditText
@@ -39,7 +39,7 @@
         android:layout_marginTop="10dp"
         android:width="200dp"
         android:ems="10"
-        android:hint="0.00"
+        android:hint="@string/initValue"
         android:inputType="numberDecimal"
         android:padding="10dp"
         android:textAlignment="textEnd"
@@ -72,15 +72,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingRight="10dp"
-            android:text="@string/cred" />
+            android:text="@string/credRB" />
 
         <RadioButton
             android:id="@+id/debit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:text="@string/debit"
+            android:checked="true"
+            android:paddingStart="10dp"
+            android:text="@string/debitRB"
             tools:layout_editor_absoluteX="-172dp"
             tools:layout_editor_absoluteY="302dp" />
 

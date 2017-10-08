@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView dateView;
     private int year, month, day;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         dateView = (TextView) findViewById(R.id.currentMonth);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year, month+1, day);
@@ -55,12 +53,11 @@ public class MainActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener myDateListener = new
             DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onDateSet(DatePicker arg0,
-                                      int arg1, int arg2, int arg3) {
+                public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                     // TODO Auto-generated method stub
-                    // arg1 = year
-                    // arg2 = month
-                    // arg3 = day
+                    arg1 = year;
+                    arg2 = month;
+                    arg3 = day;
                     showDate(arg1, arg2+1, arg3);
                 }
             };
@@ -68,5 +65,9 @@ public class MainActivity extends AppCompatActivity {
     private void showDate(int year, int month, int day) {
         dateView.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
+    }
+
+    private String formDate(int year, int month, int day) {
+        return year + "-" + month + "-" + day;
     }
 }

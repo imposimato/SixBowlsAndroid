@@ -4,4 +4,8 @@
     <string name="save">Save</string>
     <string name="cred">Credit</string>
     <string name="debit">Debit</string>
+    <string name="credRB">Credit</string>
+    <string name="debitRB">Debit</string>
+    <string name="initValue">0.00</string>
+    <string name="dateButton">Date</string>
 </resources>
