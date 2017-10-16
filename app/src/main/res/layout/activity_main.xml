@@ -11,13 +11,13 @@
     tools:context="com.luiz.sixbowls.MainActivity">
 
     <TextView
-        android:id="@+id/currentMonth"
+        android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="30sp"
         android:layout_alignBottom="@+id/dateInput"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:text="TextView"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/dateInput"
@@ -26,7 +26,6 @@
         android:layout_alignParentBottom="false"
         android:layout_alignParentEnd="false"
         android:layout_alignParentRight="true"
-        android:onClick="setDate"
         android:text="@string/dateButton"
         android:textSize="20sp" />
 
@@ -95,7 +94,7 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/insertEntryBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bowl"
@@ -103,7 +102,18 @@
         android:layout_weight="1"
         android:background="@android:drawable/ic_input_add"
         android:elevation="10dp"
+        android:onClick="insertEntry"
         android:padding="20dp"
         android:text="@string/save" />
+
+    <Button
+        android:id="@+id/goToReports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/insertEntryBt"
+        android:layout_below="@+id/insertEntryBt"
+        android:layout_marginTop="28dp"
+        android:onClick="goToReportsAct"
+        android:text="Reports" />
 
 </RelativeLayout>
