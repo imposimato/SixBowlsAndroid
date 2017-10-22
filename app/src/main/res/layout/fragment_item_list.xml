@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
+    android:scrollbars="vertical"
+    android:id="@+id/entriesList"
     android:name="com.luiz.sixbowls.EntriesFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,4 +11,7 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.luiz.sixbowls.EntriesFragment"
-    tools:listitem="@layout/fragment_entries" />
+    tools:listitem="@layout/fragment_item">
+
+
+</ListView>

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +20,13 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.TheListener{
 
     Button dateInput , insertEntryBt;
+    RadioButton credRB, debRB;
     TextView dateView, moneyInput;
     final Calendar c = Calendar.getInstance();
     int year = c.get(Calendar.YEAR);
     int month = c.get(Calendar.MONTH);
     int day = c.get(Calendar.DAY_OF_MONTH);
+    int dateInputDB;
     double entry;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
@@ -37,9 +40,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         dateView = (TextView) findViewById(R.id.dateTextView);
         dateView.setText(new StringBuilder().append(day).append("/")
                 .append(month+1).append("/").append(year));
+        dateInputDB = Integer.parseInt(String.valueOf(new StringBuilder().append(year).append(month+1).append(day)));
         moneyInput = (TextView) findViewById(R.id.moneyInput);
+        credRB = (RadioButton) findViewById(R.id.credRB);
+        debRB = (RadioButton) findViewById(R.id.debRB);
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getWritableDatabase();
+
+
+
         dateInput.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -53,9 +62,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @Override
     public void returnDate(String date) {
-        // TODO Auto-generated method stub
         String resDate = date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
         dateView.setText(resDate);
+        try{
+            dateInputDB = Integer.parseInt( date.substring(0,4) + date.substring(5,7) + date.substring(8,10));
+        } catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void insertEntry(View view){
@@ -63,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             entry = Double.parseDouble(moneyInput.getText().toString());
             ContentValues entryValue = new ContentValues();
             entryValue.put("ENTRY", entry);
+            entryValue.put("DATE", dateInputDB);
+            if (credRB.isChecked()) entryValue.put("CREDDEB", "C");
+            if (debRB.isChecked()) entryValue.put("CREDDEB", "D");
             db.insert("INOUT", null, entryValue);
             moneyInput.setText(null);
         } catch (Exception e) {
@@ -73,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     public void goToReportsAct(View view){
         try {
-            Intent it = new Intent(this, ReportHelper.class);
+            Intent it = new Intent(this, Reports.class);
             startActivity(it);
         } catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();

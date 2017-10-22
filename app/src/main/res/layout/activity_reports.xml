@@ -6,4 +6,59 @@
     android:layout_height="match_parent"
     tools:context="com.luiz.sixbowls.Reports">
 
+    <Button
+        android:id="@+id/btnDateReport1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date In"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="46dp"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/btnDateReport2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_toStartOf="@+id/textView"
+        android:text="Date out" />
+
+    <TextView
+        android:id="@+id/txtViewDateReport1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/btnDateReport1" />
+
+    <TextView
+        android:id="@+id/txtViewDateReport2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtViewDateReport1"
+        android:layout_alignBottom="@+id/txtViewDateReport1"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginStart="12dp" />
+
+    <FrameLayout
+        android:id="@+id/fragCont"
+        android:name="com.luiz.sixbowls.EntriesFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        tools:layout="@layout/fragment_item_list"
+        android:layout_below="@+id/btnDateReport1" />
+
+
 </RelativeLayout>

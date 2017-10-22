@@ -10,10 +10,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-/**
- * Created by Luiz on 16/10/2017.
- */
-
 public class ReportHelper extends ListActivity {
 
     private SQLiteDatabase db;
@@ -29,14 +25,14 @@ public class ReportHelper extends ListActivity {
             db = dbHelper.getReadableDatabase();
 
             cursor = db.query("INOUT",
-                    new String[]{"_id", "ENTRY"},
+                    new String[]{"_id", "ENTRY", "DATE", "CREDDEB"},
                     null, null, null, null, null);
 
             CursorAdapter listAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_1,
+                    android.R.layout.simple_list_item_2,
                     cursor,
-                    new String[]{"ENTRY"},
-                    new int[]{android.R.id.text1},
+                    new String[]{"ENTRY", "DATE", "CREDDEB"},
+                    new int[]{android.R.id.text2},
                     0);
             listEntries.setAdapter(listAdapter);
         } catch (Exception e) {

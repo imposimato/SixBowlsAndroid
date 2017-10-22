@@ -47,10 +47,8 @@ public class DatePickerFragment extends DialogFragment
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(c.getTime());
-        if (listener != null)
-        {
+        if (listener != null) {
             listener.returnDate(formattedDate);
-
         }
 
     }
