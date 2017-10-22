@@ -104,6 +104,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         } else {
             EntriesFragment eFrag = new EntriesFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
+            //TODO Inserir Data para o report
             ft.replace(R.id.fragCont,eFrag);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

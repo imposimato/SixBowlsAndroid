@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +51,7 @@ public class EntriesFragment extends ListFragment {
         try{
             dbHelper = new SixBowlsDbHelper(mContext);
             db = dbHelper.getWritableDatabase();
-
-
+            //TODO Filtrar data de acordo com user
             cursor = db.query("INOUT",
                     new String[]{"_id", "ENTRY", "DATE", "CREDDEB"},
                     null, null, null, null, null);
@@ -68,6 +66,7 @@ public class EntriesFragment extends ListFragment {
 
         listEntries = getListView();
         // Setup the listAdapter
+        //TODO Formatar data
         CursorAdapter listAdapter = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
                 cursor,
