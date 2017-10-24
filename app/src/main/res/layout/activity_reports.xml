@@ -18,10 +18,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:text="TextView"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="46dp"
-        android:text="TextView" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/btnDateReport2"
@@ -41,15 +41,6 @@
         android:layout_marginTop="14dp"
         android:layout_toEndOf="@+id/btnDateReport1" />
 
-    <TextView
-        android:id="@+id/txtViewDateReport2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtViewDateReport1"
-        android:layout_alignBottom="@+id/txtViewDateReport1"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginStart="12dp" />
-
     <FrameLayout
         android:id="@+id/fragCont"
         android:name="com.luiz.sixbowls.EntriesFragment"
@@ -60,5 +51,14 @@
         tools:layout="@layout/fragment_item_list"
         android:layout_below="@+id/btnDateReport1" />
 
+    <TextView
+        android:id="@+id/txtViewDateReport2"
+        android:layout_below="@+id/fragCont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtViewDateReport1"
+        android:layout_alignBottom="@+id/txtViewDateReport1"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginStart="12dp" />
 
 </RelativeLayout>

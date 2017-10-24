@@ -32,7 +32,7 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE INOUT (_id INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY REAL);");
         }
         if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE INOUT ADD COLUMN DATE TEXT");
+            db.execSQL("ALTER TABLE INOUT ADD COLUMN DATE INTEGER");
         }
         if (oldVersion < 3) {
             db.execSQL("ALTER TABLE INOUT ADD COLUMN CREDDEB TEXT");

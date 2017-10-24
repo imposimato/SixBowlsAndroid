@@ -46,7 +46,6 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
         generateReport(date1, date2);
 
-
         dateInput1.setOnClickListener(new View.OnClickListener()
         {
             @Override

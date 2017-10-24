@@ -22,6 +22,7 @@ public class EntriesFragment extends ListFragment {
     private Context mContext;
     private List<String> mResults;
     private Cursor cursor;
+    String query;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
@@ -38,8 +39,6 @@ public class EntriesFragment extends ListFragment {
         // Let's inflate & return the view
         final View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-
-
         // Return
         return view;
 
@@ -54,7 +53,8 @@ public class EntriesFragment extends ListFragment {
             //TODO Filtrar data de acordo com user
             //TODO Soma do Cred/Deb
             cursor = db.query("INOUT",
-                    new String[]{"_id", "ENTRY", "DATE", "CREDDEB"},
+                    new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
+                            "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
                     null, null, null, null, null);
             // Init
             init(view);
@@ -67,11 +67,10 @@ public class EntriesFragment extends ListFragment {
 
         listEntries = getListView();
         // Setup the listAdapter
-        //TODO Formatar data
         CursorAdapter listAdapter = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
                 cursor,
-                new String[]{"ENTRY", "DATE", "CREDDEB"},
+                new String[]{"ENTRYF", "DATEF", "CREDDEB"},
                 new int[]{R.id.entryReport, R.id.dateReport, R.id.credDebReport},
                 0);
         listEntries.setAdapter(listAdapter);
