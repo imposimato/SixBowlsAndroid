@@ -20,9 +20,8 @@ public class EntriesFragment extends ListFragment {
 
     // Attributes
     private Context mContext;
-    private List<String> mResults;
     private Cursor cursor;
-    String query;
+    private String date1, date2;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
@@ -63,7 +62,7 @@ public class EntriesFragment extends ListFragment {
         }
     }
 
-    public void init(View v) {
+    private void init(View v) {
 
         listEntries = getListView();
         // Setup the listAdapter
@@ -79,9 +78,8 @@ public class EntriesFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
-
         Toast.makeText(mContext, "CLICKED ON POS #" + pos + "!", Toast.LENGTH_SHORT).show();
-
+        //TODO Excluir entrada BD
     }
 
     @Override
@@ -89,5 +87,15 @@ public class EntriesFragment extends ListFragment {
         super.onDestroy();
         cursor.close();
         db.close();
+    }
+
+    public void setDate1(int date1) {
+        String aux = String.valueOf(date1);
+        this.date1 = aux.substring(6,8) + "-" + aux.substring(4,6) + "-" + aux.substring(0,4);
+    }
+
+    public void setDate2(int date2) {
+        String aux = String.valueOf(date2);
+        this.date2 = aux.substring(6,8) + "-" + aux.substring(4,6) + "-" + aux.substring(0,4);
     }
 }

@@ -17,7 +17,8 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
     Button dateInput1, dateInput2;
     TextView dateView1, dateView2;
-    boolean aux1 = false, aux2 = false;
+    boolean aux1 = false;
+    boolean aux2 = false;
     int date1, date2;
     final Calendar c = Calendar.getInstance();
     int year = c.get(Calendar.YEAR);
@@ -33,14 +34,17 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
         dateInput1 = (Button) findViewById(R.id.btnDateReport1);
         dateInput2 = (Button) findViewById(R.id.btnDateReport2);
+
         date1 = Integer.parseInt(String.valueOf(new StringBuilder().append(year).append(month+1).append(day)));
         date2 = Integer.parseInt(String.valueOf(new StringBuilder().append(year).append(month+1).append(day)));
+
         dateView1 = (TextView) findViewById(R.id.txtViewDateReport1);
         dateView2 = (TextView) findViewById(R.id.txtViewDateReport2);
         dateView1.setText(new StringBuilder().append(day).append("/")
                 .append(month+1).append("/").append(year));
         dateView2.setText(new StringBuilder().append(day).append("/")
                 .append(month+1).append("/").append(year));
+
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getReadableDatabase();
 
@@ -50,7 +54,6 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
                 aux1 = true;
@@ -61,7 +64,6 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
                 aux2 = true;
@@ -103,7 +105,8 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         } else {
             EntriesFragment eFrag = new EntriesFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            //TODO Inserir Data para o report
+            eFrag.setDate1(date1);
+            eFrag.setDate2(date2);
             ft.replace(R.id.fragCont,eFrag);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
