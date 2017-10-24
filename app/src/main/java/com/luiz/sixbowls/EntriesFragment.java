@@ -52,6 +52,7 @@ public class EntriesFragment extends ListFragment {
             dbHelper = new SixBowlsDbHelper(mContext);
             db = dbHelper.getWritableDatabase();
             //TODO Filtrar data de acordo com user
+            //TODO Soma do Cred/Deb
             cursor = db.query("INOUT",
                     new String[]{"_id", "ENTRY", "DATE", "CREDDEB"},
                     null, null, null, null, null);

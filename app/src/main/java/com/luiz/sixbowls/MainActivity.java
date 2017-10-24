@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     int year = c.get(Calendar.YEAR);
     int month = c.get(Calendar.MONTH);
     int day = c.get(Calendar.DAY_OF_MONTH);
-    int dateInputDB;
+    String dateInputDB;
     double entry;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
@@ -40,20 +40,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         dateView = (TextView) findViewById(R.id.dateTextView);
         dateView.setText(new StringBuilder().append(day).append("/")
                 .append(month+1).append("/").append(year));
-        dateInputDB = Integer.parseInt(String.valueOf(new StringBuilder().append(year).append(month+1).append(day)));
+        dateInputDB = String.valueOf(new StringBuilder().append(year).append("-")
+                .append(month+1).append("-").append(day));
         moneyInput = (TextView) findViewById(R.id.moneyInput);
         credRB = (RadioButton) findViewById(R.id.credRB);
         debRB = (RadioButton) findViewById(R.id.debRB);
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getWritableDatabase();
 
-
-
         dateInput.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
             }
@@ -62,13 +60,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     @Override
     public void returnDate(String date) {
+        dateInputDB = date;
         String resDate = date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
         dateView.setText(resDate);
-        try{
-            dateInputDB = Integer.parseInt( date.substring(0,4) + date.substring(5,7) + date.substring(8,10));
-        } catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void insertEntry(View view){
@@ -84,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         } catch (Exception e) {
             Toast.makeText(this, "Something wrong happened!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void goToReportsAct(View view){
@@ -101,8 +94,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         super.onDestroy();
         db.close();
     }
-
-//    @Override
+    //TODO Bowls
+    //TODO Menu superior
+//    @Override0
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main, menu);
