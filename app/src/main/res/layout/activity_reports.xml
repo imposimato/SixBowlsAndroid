@@ -4,61 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.luiz.sixbowls.Reports">
+    tools:context="com.luiz.sixbowls.Reports"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp">
 
-    <Button
-        android:id="@+id/btnDateReport1"
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date In"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:columnCount="4">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="TextView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:id="@+id/btnDateReport1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Date In" />
 
-    <Button
-        android:id="@+id/btnDateReport2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="12dp"
-        android:layout_toStartOf="@+id/textView"
-        android:text="Date out" />
+        <Button
+            android:id="@+id/btnDateReport2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridLayReport"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Date out" />
 
-    <TextView
-        android:id="@+id/txtViewDateReport1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="14dp"
-        android:layout_toEndOf="@+id/btnDateReport1" />
+        <TextView
+            android:id="@+id/txtViewDateReport1"
+            android:layout_column="1"
+            android:layout_columnWeight="6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/btnDateReport1" />
 
-    <FrameLayout
-        android:id="@+id/fragCont"
-        android:name="com.luiz.sixbowls.EntriesFragment"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txtViewDateReport2"
+            android:layout_column="3"
+            android:layout_columnWeight="6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp" />
+
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayReport"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layoutButtons"
+        android:layout_above="@+id/resultsLayout">
+
+        <FrameLayout
+            android:id="@+id/fragCont"
+            android:name="com.luiz.sixbowls.EntriesFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_item_list" />
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/resultsLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        tools:layout="@layout/fragment_item_list"
-        android:layout_below="@+id/btnDateReport1" />
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:id="@+id/txtViewDateReport2"
-        android:layout_below="@+id/fragCont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtViewDateReport1"
-        android:layout_alignBottom="@+id/txtViewDateReport1"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginStart="12dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="44dp"
+            android:text="TextView" />
+
+    </GridLayout>
 
 </RelativeLayout>

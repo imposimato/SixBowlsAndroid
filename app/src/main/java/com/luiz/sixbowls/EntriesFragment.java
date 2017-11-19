@@ -1,6 +1,5 @@
 package com.luiz.sixbowls;
 
-
 import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,8 +22,8 @@ public class EntriesFragment extends ListFragment {
     private Context mContext;
     private Cursor cursor;
     private String date1, date2;
-    SQLiteOpenHelper dbHelper;
-    SQLiteDatabase db;
+    private SQLiteOpenHelper dbHelper;
+    private SQLiteDatabase db;
 
     // Elements
     private ListView listEntries;
@@ -32,15 +32,13 @@ public class EntriesFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Set our attributes
+        // Set our context
         mContext = getActivity();
 
         // Let's inflate & return the view
         final View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Return
         return view;
-
     }
 
     @Override
@@ -78,7 +76,8 @@ public class EntriesFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
-        Toast.makeText(mContext, "CLICKED ON POS #" + pos + "!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "CLICKED ON POS #" + id + "!", Toast.LENGTH_SHORT).show();
+        //Todo Linkar a ID do BD com a entry
         //TODO Excluir entrada BD
     }
 
@@ -89,13 +88,11 @@ public class EntriesFragment extends ListFragment {
         db.close();
     }
 
-    public void setDate1(int date1) {
-        String aux = String.valueOf(date1);
-        this.date1 = aux.substring(6,8) + "-" + aux.substring(4,6) + "-" + aux.substring(0,4);
+    public void setDate1(String date1) {
+        this.date1 = date1;
     }
 
-    public void setDate2(int date2) {
-        String aux = String.valueOf(date2);
-        this.date2 = aux.substring(6,8) + "-" + aux.substring(4,6) + "-" + aux.substring(0,4);
+    public void setDate2(String date2) {
+        this.date2 = date2;
     }
 }

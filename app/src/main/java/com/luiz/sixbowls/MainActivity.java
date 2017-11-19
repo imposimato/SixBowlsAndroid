@@ -5,31 +5,33 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import java.io.File;
-
-public class MainActivity extends AppCompatActivity implements DatePickerFragment.TheListener{
+public class MainActivity extends AppCompatActivity implements DatePickerFragment.TheListener {
 
     Button dateInput , insertEntryBt;
     RadioButton credRB, debRB;
     TextView dateView, moneyInput;
-    final Calendar c = Calendar.getInstance();
-    int year = c.get(Calendar.YEAR);
-    int month = c.get(Calendar.MONTH);
-    int day = c.get(Calendar.DAY_OF_MONTH);
-    String dateInputDB;
+    SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+    Date currentDate = new Date();
+    String dateInputDB = dt.format(currentDate);
     double entry;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
+
+    public MainActivity() throws ParseException {
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         dateInput = (Button) findViewById(R.id.dateInput);
         insertEntryBt = (Button) findViewById(R.id.insertEntryBt);
         dateView = (TextView) findViewById(R.id.dateTextView);
-        dateView.setText(new StringBuilder().append(day).append("/")
-                .append(month+1).append("/").append(year));
-        dateInputDB = String.valueOf(new StringBuilder().append(year).append("-")
-                .append(month+1).append("-").append(day));
+        dateView.setText(dtShow.format(currentDate));
         moneyInput = (TextView) findViewById(R.id.moneyInput);
         credRB = (RadioButton) findViewById(R.id.credRB);
         debRB = (RadioButton) findViewById(R.id.debRB);
@@ -61,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     @Override
     public void returnDate(String date) {
         dateInputDB = date;
-        String resDate = date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
+        this.currentDate = parseDate(date);
+        String resDate = dtShow.format(this.currentDate);
         dateView.setText(resDate);
     }
 
@@ -93,6 +93,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     public void onDestroy(){
         super.onDestroy();
         db.close();
+    }
+
+    public static Date parseDate(String date){
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
     }
     //TODO Bowls
     //TODO Menu superior

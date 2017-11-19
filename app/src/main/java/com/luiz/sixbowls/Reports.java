@@ -1,17 +1,18 @@
 package com.luiz.sixbowls;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import static com.luiz.sixbowls.MainActivity.parseDate;
 
 public class Reports extends AppCompatActivity implements DatePickerFragment.TheListener {
 
@@ -19,11 +20,9 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
     TextView dateView1, dateView2;
     boolean aux1 = false;
     boolean aux2 = false;
-    int date1, date2;
-    final Calendar c = Calendar.getInstance();
-    int year = c.get(Calendar.YEAR);
-    int month = c.get(Calendar.MONTH);
-    int day = c.get(Calendar.DAY_OF_MONTH);
+    Date date1 = new Date(), date2 = new Date();
+    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
@@ -35,20 +34,15 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         dateInput1 = (Button) findViewById(R.id.btnDateReport1);
         dateInput2 = (Button) findViewById(R.id.btnDateReport2);
 
-        date1 = Integer.parseInt(String.valueOf(new StringBuilder().append(year).append(month+1).append(day)));
-        date2 = Integer.parseInt(String.valueOf(new StringBuilder().append(year).append(month+1).append(day)));
-
         dateView1 = (TextView) findViewById(R.id.txtViewDateReport1);
         dateView2 = (TextView) findViewById(R.id.txtViewDateReport2);
-        dateView1.setText(new StringBuilder().append(day).append("/")
-                .append(month+1).append("/").append(year));
-        dateView2.setText(new StringBuilder().append(day).append("/")
-                .append(month+1).append("/").append(year));
+        dateView1.setText(dtShow.format(date1));
+        dateView2.setText(dtShow.format(date2));
 
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getReadableDatabase();
 
-        generateReport(date1, date2);
+        generateReport(dt.format(date1), dt.format(date2));
 
         dateInput1.setOnClickListener(new View.OnClickListener()
         {
@@ -73,12 +67,15 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
     @Override
     public void returnDate(String date) {
-        String resDate = date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
+        Date currentDate = parseDate(date);
+        String resDate = dtShow.format(currentDate);
+
         if (aux1){
+
             dateView1.setText(resDate);
             aux1 = false;
             try{
-                date1 = Integer.parseInt( date.substring(0,4) + date.substring(5,7) + date.substring(8,10));
+                date1 = currentDate;
             } catch (Exception e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -87,28 +84,29 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             dateView2.setText(resDate);
             aux2 = false;
             try{
-                date2 = Integer.parseInt( date.substring(0,4) + date.substring(5,7) + date.substring(8,10));
+                date2 = currentDate;
             } catch (Exception e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
         try {
-            generateReport(date1, date2);
+            generateReport(dt.format(date1), dt.format(date2));
         } catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void generateReport(int date1, int date2){
-        if (date2 < date1){
+    protected void generateReport(String dateStr1, String dateStr2){
+        date1 = parseDate(dateStr1);
+        date2 = parseDate(dateStr2);
+        if (date1.after(date2)){
             Toast.makeText(this, "Date In should be smaller or equal Date Out", Toast.LENGTH_SHORT).show();
         } else {
             EntriesFragment eFrag = new EntriesFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            eFrag.setDate1(date1);
-            eFrag.setDate2(date2);
+            eFrag.setDate1(dt.format(date1));
+            eFrag.setDate2(dt.format(date2));
             ft.replace(R.id.fragCont,eFrag);
-            ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
         }

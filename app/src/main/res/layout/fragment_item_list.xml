@@ -11,7 +11,8 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.luiz.sixbowls.EntriesFragment"
-    tools:listitem="@layout/fragment_item">
+    tools:listitem="@layout/fragment_item"
+    android:descendantFocusability="blocksDescendants">
 
 
 </ListView>
