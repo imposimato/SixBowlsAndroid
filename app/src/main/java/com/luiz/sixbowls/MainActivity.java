@@ -1,5 +1,8 @@
 package com.luiz.sixbowls;
 
+// TODO: 20/11/2017  LAYOUT
+// TODO: 20/11/2017  Rodar BD backgroud
+
 import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Intent;

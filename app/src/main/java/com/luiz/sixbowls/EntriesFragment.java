@@ -3,26 +3,21 @@ package com.luiz.sixbowls;
 import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.List;
 
 public class EntriesFragment extends ListFragment {
 
     // Attributes
     private Context mContext;
-    private Cursor cursor, newCursor;
+    private Cursor cursor;
     private String date1, date2;
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
@@ -75,9 +70,6 @@ public class EntriesFragment extends ListFragment {
                 new int[]{R.id.entryReport, R.id.dateReport, R.id.credDebReport},
                 0);
         listEntries.setAdapter(listAdapter);
-
-
-
     }
 
     @Override
@@ -87,7 +79,7 @@ public class EntriesFragment extends ListFragment {
         //Todo Colocar Dialogo Confirmaçao
         db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
         listAdapter.notifyDataSetChanged();
-        updateCursor(listAdapter, cursor);
+        updateCursor(listAdapter);
 
     }
 
@@ -98,8 +90,8 @@ public class EntriesFragment extends ListFragment {
         db.close();
     }
 
-    public void updateCursor(CursorAdapter ca, Cursor c){
-        c = db.query("INOUT",
+    public void updateCursor(CursorAdapter ca){
+        Cursor c = db.query("INOUT",
                 new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
                         "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
                 null, null, null, null, null);
