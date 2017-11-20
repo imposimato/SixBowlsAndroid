@@ -45,5 +45,10 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
         db.insert("INOUT", null, entryValue);
     }
 
+    public static void excludeEntry(SQLiteDatabase db, long id){
+        String string =String.valueOf(id);
+        db.execSQL("DELETE FROM favorite WHERE _id = '" + string + "'");
+    }
+
 
 }

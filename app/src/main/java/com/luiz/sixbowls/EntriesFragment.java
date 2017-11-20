@@ -3,6 +3,7 @@ package com.luiz.sixbowls;
 import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,10 +22,11 @@ public class EntriesFragment extends ListFragment {
 
     // Attributes
     private Context mContext;
-    private Cursor cursor;
+    private Cursor cursor, newCursor;
     private String date1, date2;
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
+    CursorAdapter listAdapter;
 
     // Elements
     private ListView listEntries;
@@ -53,8 +56,9 @@ public class EntriesFragment extends ListFragment {
                     new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
                             "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
                     null, null, null, null, null);
-            // Init
+
             init(view);
+
         } catch (Exception e){
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -64,7 +68,7 @@ public class EntriesFragment extends ListFragment {
 
         listEntries = getListView();
         // Setup the listAdapter
-        CursorAdapter listAdapter = new android.widget.SimpleCursorAdapter(mContext,
+        listAdapter = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
                 cursor,
                 new String[]{"ENTRYF", "DATEF", "CREDDEB"},
@@ -72,13 +76,19 @@ public class EntriesFragment extends ListFragment {
                 0);
         listEntries.setAdapter(listAdapter);
 
+
+
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
         Toast.makeText(mContext, "CLICKED ON POS #" + id + "!", Toast.LENGTH_SHORT).show();
-        //Todo Linkar a ID do BD com a entry
-        //TODO Excluir entrada BD
+        String string = String.valueOf(id);
+        //Todo Colocar Dialogo Confirmaçao
+        db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
+        listAdapter.notifyDataSetChanged();
+        updateCursor(listAdapter, cursor);
+
     }
 
     @Override
@@ -86,6 +96,14 @@ public class EntriesFragment extends ListFragment {
         super.onDestroy();
         cursor.close();
         db.close();
+    }
+
+    public void updateCursor(CursorAdapter ca, Cursor c){
+        c = db.query("INOUT",
+                new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
+                        "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
+                null, null, null, null, null);
+        ca.changeCursor(c);
     }
 
     public void setDate1(String date1) {
