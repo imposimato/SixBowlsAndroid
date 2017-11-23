@@ -62,6 +62,7 @@ public class EntriesFragment extends ListFragment {
     private void init(View v) {
 
         listEntries = getListView();
+
         // Setup the listAdapter
         listAdapter = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
@@ -69,6 +70,7 @@ public class EntriesFragment extends ListFragment {
                 new String[]{"ENTRYF", "DATEF", "CREDDEB"},
                 new int[]{R.id.entryReport, R.id.dateReport, R.id.credDebReport},
                 0);
+
         listEntries.setAdapter(listAdapter);
     }
 
@@ -77,7 +79,7 @@ public class EntriesFragment extends ListFragment {
         Toast.makeText(mContext, "CLICKED ON POS #" + id + "!", Toast.LENGTH_SHORT).show();
         String string = String.valueOf(id);
         //Todo Colocar Dialogo Confirmaçao
-        db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
+        //db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
         listAdapter.notifyDataSetChanged();
         updateCursor(listAdapter);
 
@@ -91,10 +93,7 @@ public class EntriesFragment extends ListFragment {
     }
 
     public void updateCursor(CursorAdapter ca){
-        Cursor c = db.query("INOUT",
-                new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
-                        "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
-                null, null, null, null, null);
+        Cursor c = this.cursor;
         ca.changeCursor(c);
     }
 
