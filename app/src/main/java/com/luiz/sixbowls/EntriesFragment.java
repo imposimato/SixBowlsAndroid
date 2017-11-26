@@ -1,17 +1,23 @@
 package com.luiz.sixbowls;
 
+import android.app.Dialog;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.zip.Inflater;
 
 public class EntriesFragment extends ListFragment {
 
@@ -22,6 +28,7 @@ public class EntriesFragment extends ListFragment {
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
     CursorAdapter listAdapter;
+    Reports reports;
 
     // Elements
     private ListView listEntries;
@@ -52,37 +59,36 @@ public class EntriesFragment extends ListFragment {
                             "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
                     null, null, null, null, null);
 
-            init(view);
+            listEntries = getListView();
+
+            updateCursor();
+
+            listEntries.setAdapter(listAdapter);
+
+            listEntries.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, final long id) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Delete Entry")
+                            .setMessage("Do you really want to delete this entry?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String string = String.valueOf(id);
+                                    db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
+                                    updateCursor();
+
+                                }})
+                            .setNegativeButton(android.R.string.no, null)
+                            .create().show();
+
+                    return true;
+                }
+            });
 
         } catch (Exception e){
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void init(View v) {
-
-        listEntries = getListView();
-
-        // Setup the listAdapter
-        listAdapter = new android.widget.SimpleCursorAdapter(mContext,
-                R.layout.fragment_item,
-                cursor,
-                new String[]{"ENTRYF", "DATEF", "CREDDEB"},
-                new int[]{R.id.entryReport, R.id.dateReport, R.id.credDebReport},
-                0);
-
-        listEntries.setAdapter(listAdapter);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int pos, long id) {
-        Toast.makeText(mContext, "CLICKED ON POS #" + id + "!", Toast.LENGTH_SHORT).show();
-        String string = String.valueOf(id);
-        //Todo Colocar Dialogo Confirmaçao
-        //db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
-        listAdapter.notifyDataSetChanged();
-        updateCursor(listAdapter);
-
     }
 
     @Override
@@ -92,9 +98,19 @@ public class EntriesFragment extends ListFragment {
         db.close();
     }
 
-    public void updateCursor(CursorAdapter ca){
-        Cursor c = this.cursor;
-        ca.changeCursor(c);
+    public void updateCursor(){
+        Cursor cursor = db.query("INOUT",
+                new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
+                        "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
+                null, null, null, null, null);
+        CursorAdapter listAdapter2 = new android.widget.SimpleCursorAdapter(mContext,
+                R.layout.fragment_item,
+                cursor,
+                new String[]{"ENTRYF", "DATEF", "CREDDEB"},
+                new int[]{R.id.entryReport, R.id.dateReport, R.id.credDebReport},
+                0);
+        listAdapter = listAdapter2;
+        listEntries.setAdapter(listAdapter2);
     }
 
     public void setDate1(String date1) {

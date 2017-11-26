@@ -96,7 +96,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         }
     }
 
-    protected void generateReport(String dateStr1, String dateStr2){
+    public void generateReport(String dateStr1, String dateStr2){
         date1 = parseDate(dateStr1);
         date2 = parseDate(dateStr2);
         if (date1.after(date2)){
@@ -110,6 +110,17 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
         }
+    }
+
+    public void refreshList(){
+        EntriesFragment eFrag = new EntriesFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        eFrag.setDate1(dt.format(date1));
+        eFrag.setDate2(dt.format(date2));
+        ft.replace(R.id.fragCont,eFrag);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+
     }
 
     @Override

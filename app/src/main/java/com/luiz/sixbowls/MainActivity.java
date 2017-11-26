@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     public MainActivity() throws ParseException {
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             }
         });
     }
+
 
     @Override
     public void returnDate(String date) {
