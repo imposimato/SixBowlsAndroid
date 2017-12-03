@@ -16,32 +16,35 @@
 
         <Button
             android:id="@+id/btnDateReport1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:background="@drawable/button_background"
+            android:padding="3dp"
             android:text="Date In" />
 
         <Button
             android:id="@+id/btnDateReport2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_below="@+id/gridLayReport"
             android:layout_column="2"
             android:layout_columnWeight="1"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:background="@drawable/button_background"
+            android:padding="3dp"
             android:text="Date out" />
 
         <TextView
             android:id="@+id/txtViewDateReport1"
-            android:layout_column="1"
-            android:layout_columnWeight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/btnDateReport1" />
+            android:layout_column="1"
+            android:layout_columnWeight="6"
+            android:layout_toEndOf="@+id/btnDateReport1"
+            android:paddingStart="10dp" />
 
         <TextView
             android:id="@+id/txtViewDateReport2"

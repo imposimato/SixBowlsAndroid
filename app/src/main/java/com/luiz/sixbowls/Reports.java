@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import static com.luiz.sixbowls.MainActivity.parseDate;
@@ -134,13 +136,13 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         Cursor cursorSumDeb = db.rawQuery(sumDebQuery, new String[] {dt.format(date1), dt.format(date2)});
 
         if (cursorSumCred.moveToFirst()){
-            totalCred = cursorSumCred.getInt(cursorSumCred.getColumnIndex("TOTAL"));
-            resultCredTV.setText("Total Credit: " + String.valueOf(totalCred));
+            totalCred = cursorSumCred.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
+            resultCredTV.setText("Total Credit: " + String.format("%.2f", totalCred));
         }
 
         if (cursorSumDeb.moveToFirst()){
-            totalDeb = cursorSumDeb.getInt(cursorSumCred.getColumnIndex("TOTAL"));
-            resultDebTV.setText("Total Debit: " + String.valueOf(totalDeb));
+            totalDeb = cursorSumDeb.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
+            resultDebTV.setText("Total Debit: " + String.format("%.2f", totalDeb));
         }
 
         if (totalCred - totalDeb < 0){
@@ -149,7 +151,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             balanceTV.setTextColor(Color.GREEN);
         }
 
-        balanceTV.setText("Balance : " + String.valueOf(totalCred - totalDeb));
+        balanceTV.setText("Balance : " + String.format("%.2f", (totalCred - totalDeb)));
     }
 
     @Override

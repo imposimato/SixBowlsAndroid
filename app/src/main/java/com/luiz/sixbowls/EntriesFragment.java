@@ -18,6 +18,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.zip.Inflater;
 
 public class EntriesFragment extends ListFragment {
@@ -87,40 +88,6 @@ public class EntriesFragment extends ListFragment {
         }
     }
 
-    public void updateBalance() {
-
-        String sumCredQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'C'";
-        String sumDebQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'D'";
-
-        Cursor cursorSumCred = db.rawQuery(sumCredQuery, new String[] {date1, date2});
-        Cursor cursorSumDeb = db.rawQuery(sumDebQuery, new String[] {date1, date2});
-
-        if (cursorSumCred.moveToFirst()){
-            totalCred = cursorSumCred.getInt(cursorSumCred.getColumnIndex("TOTAL"));
-            Reports.resultCredTV.setText("Total Credit: " + String.valueOf(totalCred));
-        }
-
-        if (cursorSumDeb.moveToFirst()){
-            totalDeb = cursorSumDeb.getInt(cursorSumCred.getColumnIndex("TOTAL"));
-            Reports.resultDebTV.setText("Total Debit: " + String.valueOf(totalDeb));
-        }
-
-        if (totalCred - totalDeb < 0){
-            Reports.balanceTV.setTextColor(Color.RED);
-        } else {
-            Reports.balanceTV.setTextColor(Color.GREEN);
-        }
-
-        Reports.balanceTV.setText("Balance : " + String.valueOf(totalCred - totalDeb));
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        cursor.close();
-        db.close();
-    }
-
     public void updateCursor(){
         cursor = db.query("INOUT",
                 new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
@@ -135,6 +102,40 @@ public class EntriesFragment extends ListFragment {
                 0);
         listAdapter = listAdapter2;
         listEntries.setAdapter(listAdapter2);
+    }
+
+    public void updateBalance() {
+
+        String sumCredQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'C'";
+        String sumDebQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'D'";
+
+        Cursor cursorSumCred = db.rawQuery(sumCredQuery, new String[] {date1, date2});
+        Cursor cursorSumDeb = db.rawQuery(sumDebQuery, new String[] {date1, date2});
+
+        if (cursorSumCred.moveToFirst()){
+            totalCred = cursorSumCred.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
+            Reports.resultCredTV.setText("Total Credit: " + String.format("%.2f", totalCred));
+        }
+
+        if (cursorSumDeb.moveToFirst()){
+            totalDeb = cursorSumDeb.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
+            Reports.resultDebTV.setText("Total Debit: " + String.format("%.2f", totalDeb));
+        }
+
+        if (totalCred - totalDeb < 0){
+            Reports.balanceTV.setTextColor(Color.RED);
+        } else {
+            Reports.balanceTV.setTextColor(Color.GREEN);
+        }
+
+        Reports.balanceTV.setText("Balance : " + String.format("%.2f", (totalCred - totalDeb)));
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        cursor.close();
+        db.close();
     }
 
     public void setDate1(String date1) {
