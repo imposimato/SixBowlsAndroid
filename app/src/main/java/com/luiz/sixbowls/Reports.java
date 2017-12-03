@@ -2,8 +2,10 @@ package com.luiz.sixbowls;
 
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,8 +20,13 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
     Button dateInput1, dateInput2;
     TextView dateView1, dateView2;
+    static TextView resultCredTV, resultDebTV, balanceTV;
     boolean aux1 = false;
     boolean aux2 = false;
+
+    double totalCred = 0;
+    double totalDeb = 0;
+
     Date date1 = new Date(), date2 = new Date();
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
@@ -38,6 +45,10 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         dateView2 = (TextView) findViewById(R.id.txtViewDateReport2);
         dateView1.setText(dtShow.format(date1));
         dateView2.setText(dtShow.format(date2));
+
+        resultCredTV = (TextView) findViewById(R.id.resultCredTV);
+        resultDebTV = (TextView) findViewById(R.id.resultDebTV);
+        balanceTV = (TextView) findViewById(R.id.balanceTV);
 
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getReadableDatabase();
@@ -109,18 +120,36 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             ft.replace(R.id.fragCont,eFrag);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
+
+            updateBalance();
         }
     }
 
-    public void refreshList(){
-        EntriesFragment eFrag = new EntriesFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        eFrag.setDate1(dt.format(date1));
-        eFrag.setDate2(dt.format(date2));
-        ft.replace(R.id.fragCont,eFrag);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
+    public void updateBalance() {
 
+        String sumCredQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'C'";
+        String sumDebQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'D'";
+
+        Cursor cursorSumCred = db.rawQuery(sumCredQuery, new String[] {dt.format(date1), dt.format(date2)});
+        Cursor cursorSumDeb = db.rawQuery(sumDebQuery, new String[] {dt.format(date1), dt.format(date2)});
+
+        if (cursorSumCred.moveToFirst()){
+            totalCred = cursorSumCred.getInt(cursorSumCred.getColumnIndex("TOTAL"));
+            resultCredTV.setText("Total Credit: " + String.valueOf(totalCred));
+        }
+
+        if (cursorSumDeb.moveToFirst()){
+            totalDeb = cursorSumDeb.getInt(cursorSumCred.getColumnIndex("TOTAL"));
+            resultDebTV.setText("Total Debit: " + String.valueOf(totalDeb));
+        }
+
+        if (totalCred - totalDeb < 0){
+            balanceTV.setTextColor(Color.RED);
+        } else {
+            balanceTV.setTextColor(Color.GREEN);
+        }
+
+        balanceTV.setText("Balance : " + String.valueOf(totalCred - totalDeb));
     }
 
     @Override

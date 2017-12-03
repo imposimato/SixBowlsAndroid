@@ -8,26 +8,26 @@
     android:layout_centerInParent="true"
     android:layout_centerVertical="false"
     android:padding="60dp"
+    tools:background="@drawable/bg"
     tools:context="com.luiz.sixbowls.MainActivity">
-
-    <TextView
-        android:id="@+id/dateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dateInput"
-        android:layout_alignParentStart="true"
-        android:text="TextView"
-        android:textSize="30sp" />
 
     <Button
         android:id="@+id/dateInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentRight="true"
         android:text="@string/dateButton"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_alignBottom="@+id/dateInput"
+        android:text=""
+        android:layout_alignParentRight="true"
+        android:textSize="30sp" />
 
     <EditText
         android:id="@+id/moneyInput"
@@ -88,9 +88,9 @@
 
     <Spinner
         android:id="@+id/bowl"
-        android:layout_below="@+id/credDeb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/credDeb"
         android:layout_weight="1" />
 
     <Button
