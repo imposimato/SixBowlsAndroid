@@ -93,6 +93,10 @@ public class EntriesFragment extends ListFragment {
     }
 
     public void updateCursor(){
+        //TODO BOWL no fragment_item.xml
+        //TODO Inserir Bowl na query
+        //TODO Inserir Bowl no Adapter
+
         cursor = db.query("INOUT",
                 new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
                         "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},

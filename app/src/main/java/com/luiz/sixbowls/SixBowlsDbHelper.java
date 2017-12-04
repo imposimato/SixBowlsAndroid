@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SixBowlsDbHelper extends SQLiteOpenHelper {
 
+    //TODO BOWL Field
+
     private static final String DB_NAME = "sixBowls";
     private static final int DB_VERSION = 3;
 

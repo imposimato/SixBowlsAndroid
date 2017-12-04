@@ -10,15 +10,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements DatePickerFragment.TheListener {
@@ -26,13 +31,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     Button dateInput , insertEntryBt;
     RadioButton credRB, debRB;
     TextView dateView, moneyInput;
+    Spinner spinner;
+
     SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+
     Date currentDate = new Date();
     String dateInputDB = dt.format(currentDate);
+
+    int spinnerItem = 0;
     double entry;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
+
+    ArrayList<String> bowls;
+    ArrayAdapter arrayAdapter;
 
     public MainActivity() throws ParseException {
     }
@@ -50,6 +63,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         debRB = (RadioButton) findViewById(R.id.debRB);
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getWritableDatabase();
+        String[] bowlsStr = getResources().getStringArray(R.array.bowls);
+        bowls = new ArrayList<String>();
+        for (String string : bowlsStr){
+            bowls.add(string);
+        }
+
+        spinner = (Spinner) findViewById(R.id.bowl);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, bowls);
+        spinner.setAdapter(arrayAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerItem = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         dateInput.setOnClickListener(new View.OnClickListener()
         {
@@ -76,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             ContentValues entryValue = new ContentValues();
             entryValue.put("ENTRY", entry);
             entryValue.put("DATE", dateInputDB);
+            //TODO Insert BOWL DB
             if (credRB.isChecked()) entryValue.put("CREDDEB", "C");
             if (debRB.isChecked()) entryValue.put("CREDDEB", "D");
             db.insert("INOUT", null, entryValue);

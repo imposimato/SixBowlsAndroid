@@ -8,4 +8,19 @@
     <string name="debitRB">Debit</string>
     <string name="initValue">0.00</string>
     <string name="dateButton">Date</string>
+    <string name="basics">Basics</string>
+    <string name="fun">Fun</string>
+    <string name="future">Future</string>
+    <string name="education">Education</string>
+    <string name="leisure">Leisure</string>
+    <string name="gift">Gift</string>
+
+    <string-array name="bowls">
+        <item>@string/basics</item>
+        <item>@string/fun</item>
+        <item>@string/future</item>
+        <item>@string/education</item>
+        <item>@string/leisure</item>
+        <item>@string/gift</item>
+    </string-array>
 </resources>
