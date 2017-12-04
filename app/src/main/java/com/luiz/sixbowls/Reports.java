@@ -35,6 +35,8 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
+    BalanceUpdate balanceUpdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getReadableDatabase();
+        balanceUpdate = new BalanceUpdate();
 
         generateReport(dt.format(date1), dt.format(date2));
 
@@ -123,35 +126,8 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
 
-            updateBalance();
+            balanceUpdate.updateBalance(dt.format(date1), dt.format(date2));
         }
-    }
-
-    public void updateBalance() {
-
-        String sumCredQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'C'";
-        String sumDebQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'D'";
-
-        Cursor cursorSumCred = db.rawQuery(sumCredQuery, new String[] {dt.format(date1), dt.format(date2)});
-        Cursor cursorSumDeb = db.rawQuery(sumDebQuery, new String[] {dt.format(date1), dt.format(date2)});
-
-        if (cursorSumCred.moveToFirst()){
-            totalCred = cursorSumCred.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
-            resultCredTV.setText("Total Credit: " + String.format("%.2f", totalCred));
-        }
-
-        if (cursorSumDeb.moveToFirst()){
-            totalDeb = cursorSumDeb.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
-            resultDebTV.setText("Total Debit: " + String.format("%.2f", totalDeb));
-        }
-
-        if (totalCred - totalDeb < 0){
-            balanceTV.setTextColor(Color.RED);
-        } else {
-            balanceTV.setTextColor(Color.GREEN);
-        }
-
-        balanceTV.setText("Balance : " + String.format("%.2f", (totalCred - totalDeb)));
     }
 
     @Override

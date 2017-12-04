@@ -33,6 +33,7 @@ public class EntriesFragment extends ListFragment {
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
     CursorAdapter listAdapter;
+    BalanceUpdate balanceUpdate;
 
     // Elements
     private ListView listEntries;
@@ -43,6 +44,9 @@ public class EntriesFragment extends ListFragment {
 
         // Set our context
         mContext = getActivity();
+
+        // Set up BalanceUpdateClass
+        balanceUpdate = new BalanceUpdate();
 
         // Let's inflate & return the view
         final View view = inflater.inflate(R.layout.fragment_item_list, container, false);
@@ -73,7 +77,7 @@ public class EntriesFragment extends ListFragment {
                                     String string = String.valueOf(id);
                                     db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
                                     updateCursor();
-                                    updateBalance();
+                                    balanceUpdate.updateBalance(date1, date2);
 
                                 }})
                             .setNegativeButton(android.R.string.no, null)
@@ -102,33 +106,6 @@ public class EntriesFragment extends ListFragment {
                 0);
         listAdapter = listAdapter2;
         listEntries.setAdapter(listAdapter2);
-    }
-
-    public void updateBalance() {
-
-        String sumCredQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'C'";
-        String sumDebQuery = "SELECT SUM(ENTRY) AS TOTAL FROM INOUT WHERE (DATE BETWEEN ? AND ?) AND CREDDEB = 'D'";
-
-        Cursor cursorSumCred = db.rawQuery(sumCredQuery, new String[] {date1, date2});
-        Cursor cursorSumDeb = db.rawQuery(sumDebQuery, new String[] {date1, date2});
-
-        if (cursorSumCred.moveToFirst()){
-            totalCred = cursorSumCred.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
-            Reports.resultCredTV.setText("Total Credit: " + String.format("%.2f", totalCred));
-        }
-
-        if (cursorSumDeb.moveToFirst()){
-            totalDeb = cursorSumDeb.getDouble(cursorSumCred.getColumnIndex("TOTAL"));
-            Reports.resultDebTV.setText("Total Debit: " + String.format("%.2f", totalDeb));
-        }
-
-        if (totalCred - totalDeb < 0){
-            Reports.balanceTV.setTextColor(Color.RED);
-        } else {
-            Reports.balanceTV.setTextColor(Color.GREEN);
-        }
-
-        Reports.balanceTV.setText("Balance : " + String.format("%.2f", (totalCred - totalDeb)));
     }
 
     @Override

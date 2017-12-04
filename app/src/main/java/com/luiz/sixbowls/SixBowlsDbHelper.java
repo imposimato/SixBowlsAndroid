@@ -16,6 +16,11 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
+
+    public void SixBowlsDbHelper(){
+
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         updateMyDB(db, 0, DB_VERSION);
