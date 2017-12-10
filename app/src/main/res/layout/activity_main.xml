@@ -29,8 +29,9 @@
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/dateInput"
         android:layout_alignBottom="@+id/dateInput"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:paddingLeft="10dp"
         android:shadowColor="@android:color/white"
         android:shadowDx="5"
@@ -38,7 +39,7 @@
         android:shadowRadius="15"
         android:text="XXXXX"
         android:textColor="@android:color/black"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/moneyInput"
@@ -51,6 +52,7 @@
         android:ems="10"
         android:hint="@string/initValue"
         android:inputType="numberDecimal"
+        android:maxLength="11"
         android:padding="10dp"
         android:shadowColor="@android:color/white"
         android:shadowDx="5"

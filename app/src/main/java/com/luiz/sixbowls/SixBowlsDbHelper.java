@@ -24,37 +24,21 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        updateMyDB(db, 0, DB_VERSION);
+        db.execSQL("CREATE TABLE INOUT (_id INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY DECIMAL(11,2), DATE INTEGER, CREDDEB TEXT, BOWL TEXT);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        updateMyDB(db, oldVersion, newVersion);
+
     }
 
-    public void updateMyDB(SQLiteDatabase db, int oldVersion, int newVersion){
-
-        if (oldVersion < 1) {
-            db.execSQL("CREATE TABLE INOUT (_id INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY REAL);");
-        }
-        if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE INOUT ADD COLUMN DATE INTEGER");
-        }
-        if (oldVersion < 3) {
-            db.execSQL("ALTER TABLE INOUT ADD COLUMN CREDDEB TEXT");
-        }
-        if (oldVersion < 4) {
-            db.execSQL("ALTER TABLE INOUT ADD COLUMN BOWL TEXT");
-        }
-    }
-
-    public void insertEntryDb(SQLiteDatabase db, double entry){
+    public void insertEntry(SQLiteDatabase db, double entry){
         ContentValues entryValue = new ContentValues();
         entryValue.put("ENTRY", entry);
         db.insert("INOUT", null, entryValue);
     }
 
-    public static void excludeEntry(SQLiteDatabase db, long id){
+    public void deleteEntry(SQLiteDatabase db, long id){
         String string =String.valueOf(id);
         db.execSQL("DELETE FROM favorite WHERE _id = '" + string + "'");
     }

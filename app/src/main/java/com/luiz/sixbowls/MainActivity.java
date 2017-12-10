@@ -9,6 +9,7 @@ package com.luiz.sixbowls;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,12 +18,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -37,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
     Button dateInput , insertEntryBt;
     RadioButton credRB, debRB;
-    TextView dateView, moneyInput;
+    TextView dateView;
+    EditText moneyInput;
     Spinner spinner;
     RadioGroup radioGroup;
 
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         insertEntryBt = (Button) findViewById(R.id.insertEntryBt);
         dateView = (TextView) findViewById(R.id.dateTextView);
         dateView.setText(dtShow.format(currentDate));
-        moneyInput = (TextView) findViewById(R.id.moneyInput);
+        moneyInput = (EditText) findViewById(R.id.moneyInput);
         credRB = (RadioButton) findViewById(R.id.credRB);
         debRB = (RadioButton) findViewById(R.id.debRB);
         dbHelper = new SixBowlsDbHelper(this);
@@ -102,6 +107,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             }
         });
 
+        moneyInput.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    insertEntry(v);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+                return false;
+            }
+        });
+
         radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -133,8 +151,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             entryValue.put("ENTRY", entry);
             entryValue.put("DATE", dateInputDB);
 
-            if (credRB.isChecked()) entryValue.put("CREDDEB", "C");
-            entryValue.put("BOWL", "CREDIT");
+            if (credRB.isChecked())  {
+                entryValue.put("CREDDEB", "C");
+                entryValue.put("BOWL", "CREDIT");
+            }
             if (debRB.isChecked()) {
                 entryValue.put("CREDDEB", "D");
                 entryValue.put("BOWL", bowls.get(spinnerItem));
@@ -146,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             Toast.makeText(this, "Something wrong happened!", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     public void goToReportsAct(View view){
         try {
