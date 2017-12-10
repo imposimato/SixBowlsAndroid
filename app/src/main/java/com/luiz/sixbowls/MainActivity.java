@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             }
         });
 
+
         dateInput.setOnClickListener(new View.OnClickListener()
         {
             @Override
