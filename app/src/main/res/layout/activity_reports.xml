@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.luiz.sixbowls.Reports"
     android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp">
+    android:layout_marginRight="2dp"
+    android:background="@drawable/tile_background"
+    tools:context="com.luiz.sixbowls.Reports">
 
     <GridLayout
         android:id="@+id/layoutButtons"
@@ -48,10 +49,10 @@
 
         <TextView
             android:id="@+id/txtViewDateReport2"
-            android:layout_column="3"
-            android:layout_columnWeight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_column="3"
+            android:layout_columnWeight="6"
             android:layout_marginStart="12dp" />
 
     </GridLayout>
@@ -60,8 +61,8 @@
         android:id="@+id/gridLayReport"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layoutButtons"
-        android:layout_above="@+id/resultsLayout">
+        android:layout_above="@+id/resultsLayout"
+        android:layout_below="@+id/layoutButtons">
 
         <FrameLayout
             android:id="@+id/fragCont"
@@ -75,8 +76,8 @@
         android:id="@+id/resultsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/resultCredTV"
@@ -87,13 +88,13 @@
             android:id="@+id/resultDebTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/resultCredTV"/>
+            android:layout_below="@+id/resultCredTV" />
 
         <TextView
             android:id="@+id/balanceTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/resultDebTV"/>
+            android:layout_below="@+id/resultDebTV" />
 
     </RelativeLayout>
 

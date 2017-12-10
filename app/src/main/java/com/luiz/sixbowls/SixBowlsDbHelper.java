@@ -9,10 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SixBowlsDbHelper extends SQLiteOpenHelper {
 
-    //TODO BOWL Field
 
     private static final String DB_NAME = "sixBowls";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public SixBowlsDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -43,6 +42,9 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 3) {
             db.execSQL("ALTER TABLE INOUT ADD COLUMN CREDDEB TEXT");
+        }
+        if (oldVersion < 4) {
+            db.execSQL("ALTER TABLE INOUT ADD COLUMN BOWL TEXT");
         }
     }
 

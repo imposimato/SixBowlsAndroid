@@ -1,13 +1,19 @@
 package com.luiz.sixbowls;
 
-// TODO: 20/11/2017  LAYOUT
-// TODO: 20/11/2017  Rodar BD backgroud
+// TODO: LAYOUT
+// TODO: Rodar BD backgroud
+// TODO: Swipe Views
+// TODO: OCR Button
+// TODO: Export/Import CSV file
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     RadioButton credRB, debRB;
     TextView dateView, moneyInput;
     Spinner spinner;
+    RadioGroup radioGroup;
 
     SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,13 +93,26 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             }
         });
 
-
         dateInput.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
+            }
+        });
+
+        radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.credRB){
+                    spinner.setEnabled(false);
+                }
+                if (checkedId == R.id.debRB){
+                    spinner.setEnabled(true);
+                }
             }
         });
     }
@@ -111,9 +132,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             ContentValues entryValue = new ContentValues();
             entryValue.put("ENTRY", entry);
             entryValue.put("DATE", dateInputDB);
-            //TODO Insert BOWL DB
+
             if (credRB.isChecked()) entryValue.put("CREDDEB", "C");
-            if (debRB.isChecked()) entryValue.put("CREDDEB", "D");
+            entryValue.put("BOWL", "CREDIT");
+            if (debRB.isChecked()) {
+                entryValue.put("CREDDEB", "D");
+                entryValue.put("BOWL", bowls.get(spinnerItem));
+            }
+
             db.insert("INOUT", null, entryValue);
             moneyInput.setText(null);
         } catch (Exception e) {
@@ -143,8 +169,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             return null;
         }
     }
-    //TODO Bowls
-    //TODO Menu superior
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -156,7 +181,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
         switch (item.getItemId()) {
             case R.id.menuAbout:
-                Toast.makeText(this, "About the App", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(MainActivity.this, R.style.Theme_AppCompat_DayNight_Dialog_Alert)
+                        .setTitle("Six Bowls")
+                        .setMessage(R.string.aboutDescription)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setNeutralButton("Ok", null)
+                        .create()
+                        .show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

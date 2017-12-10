@@ -7,7 +7,7 @@
     android:layout_centerHorizontal="false"
     android:layout_centerInParent="true"
     android:layout_centerVertical="false"
-    android:background="#ffffcc"
+    android:background="@drawable/tile_background"
     android:padding="60dp"
     tools:context="com.luiz.sixbowls.MainActivity">
 
@@ -77,7 +77,7 @@
         tools:layout_editor_absoluteY="216dp" />
 
     <RadioGroup
-        android:id="@+id/credDeb"
+        android:id="@+id/credDebRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/moneyInput"
@@ -121,7 +121,7 @@
         android:id="@+id/bowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/credDeb"
+        android:layout_below="@+id/credDebRadioGroup"
         android:layout_centerHorizontal="true"
         android:layout_weight="20"
         android:padding="20dp"

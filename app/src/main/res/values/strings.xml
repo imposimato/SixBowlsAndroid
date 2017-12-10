@@ -14,6 +14,7 @@
     <string name="education">Education</string>
     <string name="leisure">Leisure</string>
     <string name="gift">Gift</string>
+    <string name="aboutDescription">This App intend to help you to control your finances. It allows you to inform your income and outcame and also displays a balance in the period.</string>
 
     <string-array name="bowls">
         <item>@string/basics</item>

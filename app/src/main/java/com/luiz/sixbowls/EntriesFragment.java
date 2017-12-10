@@ -93,20 +93,17 @@ public class EntriesFragment extends ListFragment {
     }
 
     public void updateCursor(){
-        //TODO BOWL no fragment_item.xml
-        //TODO Inserir Bowl na query
-        //TODO Inserir Bowl no Adapter
 
         cursor = db.query("INOUT",
                 new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
-                        "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
+                        "BOWL", "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
                 whereClause, new String[] {date1, date2},
                 null, null, "DATE");
         CursorAdapter listAdapter2 = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
                 cursor,
-                new String[]{"ENTRYF", "DATEF", "CREDDEB"},
-                new int[]{R.id.entryReport, R.id.dateReport, R.id.credDebReport},
+                new String[]{"DATEF", "BOWL", "ENTRYF", "CREDDEB"},
+                new int[]{R.id.dateReport, R.id.bowlReport, R.id.entryReport, R.id.credDebReport},
                 0);
         listAdapter = listAdapter2;
         listEntries.setAdapter(listAdapter2);
