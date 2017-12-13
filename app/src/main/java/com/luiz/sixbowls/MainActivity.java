@@ -114,8 +114,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     insertEntry(v);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
                 }
                 return false;
             }
@@ -163,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
 
             db.insert("INOUT", null, entryValue);
             moneyInput.setText(null);
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
             Toast.makeText(this, "Something wrong happened!", Toast.LENGTH_SHORT).show();
         }

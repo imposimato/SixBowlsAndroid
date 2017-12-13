@@ -13,15 +13,15 @@
 
     <Button
         android:id="@+id/dateInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:background="@drawable/button_background"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/datebg"
         android:shadowColor="@android:color/white"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="15"
-        android:text="@string/dateButton"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
@@ -132,12 +132,12 @@
 
     <Button
         android:id="@+id/insertEntryBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/bowl"
         android:layout_centerHorizontal="true"
         android:layout_weight="1"
-        android:background="@drawable/button_background"
+        android:background="@drawable/registerbg"
         android:elevation="10dp"
         android:onClick="insertEntry"
         android:padding="20dp"
@@ -145,23 +145,18 @@
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="15"
-        android:text="@string/save"
         android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/goToReports"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/insertEntryBt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
-        android:background="@drawable/button_background"
+        android:background="@drawable/reportsbg"
         android:onClick="goToReportsAct"
         android:shadowColor="@android:color/white"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="15"
-        android:text="Reports"
         android:textColor="@android:color/black" />
 
 </RelativeLayout>
