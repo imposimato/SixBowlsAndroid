@@ -32,14 +32,19 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.luiz.sixbowls.ocr.OcrCaptureActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements DatePickerFragment.TheListener {
+public class MainActivity extends AppCompatActivity
+        implements DatePickerFragment.TheListener {
 
-    Button dateInput , insertEntryBt;
+    Button dateInput , insertEntryBt, ocrStart;
     RadioButton credRB, debRB;
     TextView dateView;
     EditText moneyInput;
@@ -57,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
+    private static final int RC_OCR_CAPTURE = 9003;
+
     ArrayList<String> bowls;
     ArrayAdapter arrayAdapter;
 
@@ -72,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         dateView = (TextView) findViewById(R.id.dateTextView);
         dateView.setText(dtShow.format(currentDate));
         moneyInput = (EditText) findViewById(R.id.moneyInput);
+        ocrStart = (Button) findViewById(R.id.ocrStart);
+        radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
         credRB = (RadioButton) findViewById(R.id.credRB);
         debRB = (RadioButton) findViewById(R.id.debRB);
         dbHelper = new SixBowlsDbHelper(this);
@@ -98,15 +107,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             }
         });
 
-
-        dateInput.setOnClickListener(new View.OnClickListener()
-        {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 DialogFragment picker = new DatePickerFragment();
                 picker.show(getFragmentManager(), "datePicker");
             }
-        });
+        };
+
+        dateView.setOnClickListener(onClickListener);
+        dateInput.setOnClickListener(onClickListener);
 
         moneyInput.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -120,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             }
         });
 
-        radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -135,13 +144,47 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
         });
     }
 
-
     @Override
     public void returnDate(String date) {
         dateInputDB = date;
         this.currentDate = parseDate(date);
         String resDate = dtShow.format(this.currentDate);
         dateView.setText(resDate);
+    }
+
+    public void ocrCapture(View view){
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        intent.putExtra(OcrCaptureActivity.AutoFocus, true);
+        intent.putExtra(OcrCaptureActivity.UseFlash, false);
+
+        startActivityForResult(intent, RC_OCR_CAPTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == RC_OCR_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
+                    try{
+                        Double valueRetrived = Double.parseDouble(text);
+                        moneyInput.setText(text);
+                    } catch (Exception e){
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+//                    statusMessage.setText(R.string.ocr_success);
+//                    textValue.setText(text);
+//                    Log.d(TAG, "Text read: " + text);
+                } else {
+                    Toast.makeText(MainActivity.this, "Not Possible to Read", Toast.LENGTH_SHORT).show();
+            }
+            } else {
+                Toast.makeText(MainActivity.this, CommonStatusCodes.getStatusCodeString(resultCode), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public void insertEntry(View view){
@@ -168,8 +211,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerFragmen
             Toast.makeText(this, "Something wrong happened!", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
     public void goToReportsAct(View view){
         try {

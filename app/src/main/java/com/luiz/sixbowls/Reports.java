@@ -89,7 +89,6 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         String resDate = dtShow.format(currentDate);
 
         if (aux1){
-
             dateView1.setText(resDate);
             aux1 = false;
             try{
@@ -148,7 +147,6 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override

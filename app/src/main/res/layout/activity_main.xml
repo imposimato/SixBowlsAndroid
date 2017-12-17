@@ -8,7 +8,7 @@
     android:layout_centerInParent="true"
     android:layout_centerVertical="false"
     android:background="@drawable/tile_background"
-    android:padding="60dp"
+    android:padding="20dp"
     tools:context="com.luiz.sixbowls.MainActivity">
 
     <Button
@@ -18,28 +18,31 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/datebg"
-        android:shadowColor="@android:color/white"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="15"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/dateInput"
+        android:layout_toRightOf="@+id/dateInput"
+        android:paddingLeft="20dp"
+        android:padding="10dp"
         android:layout_alignBottom="@+id/dateInput"
-        android:layout_alignParentEnd="true"
-        android:paddingLeft="10dp"
-        android:shadowColor="@android:color/white"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="15"
-        android:text="XXXXX"
         android:textColor="@android:color/black"
         android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/moneyInput"
+        android:layout_toLeftOf="@+id/moneyInput"
+        android:clickable="false"
+        android:text="@string/currency"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="216dp" />
 
     <EditText
         android:id="@+id/moneyInput"
@@ -62,21 +65,14 @@
         android:textColor="@android:color/black"
         android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/currency"
+    <Button
+        android:id="@+id/ocrStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/moneyInput"
-        android:clickable="false"
-        android:shadowColor="@android:color/white"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="15"
-        android:text="@string/currency"
-        android:textColor="@android:color/black"
-        android:textSize="30sp"
-        tools:layout_editor_absoluteX="81dp"
-        tools:layout_editor_absoluteY="216dp" />
+        android:layout_alignBottom="@id/moneyInput"
+        android:layout_toRightOf="@+id/moneyInput"
+        android:onClick="ocrCapture"
+        android:text="Button" />
 
     <RadioGroup
         android:id="@+id/credDebRadioGroup"
@@ -125,7 +121,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/credDebRadioGroup"
         android:layout_centerHorizontal="true"
-        android:layout_weight="20"
         android:padding="20dp"
         android:scaleX="1.5"
         android:scaleY="1.5" />
@@ -136,7 +131,6 @@
         android:layout_height="60dp"
         android:layout_below="@+id/bowl"
         android:layout_centerHorizontal="true"
-        android:layout_weight="1"
         android:background="@drawable/registerbg"
         android:elevation="10dp"
         android:onClick="insertEntry"
@@ -145,6 +139,15 @@
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="15"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/insertEntryBt"
+        android:layout_centerHorizontal="true"
+        android:text="Register"
         android:textColor="@android:color/black" />
 
     <Button
@@ -157,6 +160,15 @@
         android:background="@drawable/reportsbg"
         android:onClick="goToReportsAct"
         android:shadowColor="@android:color/white"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/goToReports"
+        android:layout_centerHorizontal="true"
+        android:text="Reports"
         android:textColor="@android:color/black" />
 
 </RelativeLayout>
