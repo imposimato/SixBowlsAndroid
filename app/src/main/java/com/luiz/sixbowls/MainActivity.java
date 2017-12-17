@@ -3,7 +3,6 @@ package com.luiz.sixbowls;
 // TODO: LAYOUT
 // TODO: Rodar BD backgroud
 // TODO: Swipe Views
-// TODO: OCR Button
 // TODO: Export/Import CSV file
 
 import android.app.Dialog;
@@ -166,18 +165,10 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
-                    try{
-                        Double valueRetrived = Double.parseDouble(text);
-                        moneyInput.setText(text);
-                    } catch (Exception e){
-                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-//                    statusMessage.setText(R.string.ocr_success);
-//                    textValue.setText(text);
-//                    Log.d(TAG, "Text read: " + text);
+                    moneyInput.setText(String.valueOf(text));
                 } else {
                     Toast.makeText(MainActivity.this, "It was not Possible to Read", Toast.LENGTH_SHORT).show();
-            }
+                }
             } else {
                 Toast.makeText(MainActivity.this, CommonStatusCodes.getStatusCodeString(resultCode), Toast.LENGTH_SHORT).show();
             }
@@ -207,8 +198,9 @@ public class MainActivity extends AppCompatActivity
             moneyInput.setText(null);
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            Toast.makeText(MainActivity.this, "Entry Registered!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Something wrong happened!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Something wrong is not right!", Toast.LENGTH_SHORT).show();
         }
     }
 

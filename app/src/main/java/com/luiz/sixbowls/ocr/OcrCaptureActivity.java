@@ -310,10 +310,15 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (graphic != null) {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
-                Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
+                try{
+                    Double.parseDouble(text.getValue().toString());
+                    Intent data = new Intent();
+                    data.putExtra(TextBlockObject, text.getValue());
+                    setResult(CommonStatusCodes.SUCCESS, data);
+                    finish();
+                } catch (Exception e){
+                    Toast.makeText(this, "It is not a valid value!", Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 Log.d(TAG, "text data is null");
