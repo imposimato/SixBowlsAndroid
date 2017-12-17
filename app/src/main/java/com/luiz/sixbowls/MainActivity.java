@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity
 //                    textValue.setText(text);
 //                    Log.d(TAG, "Text read: " + text);
                 } else {
-                    Toast.makeText(MainActivity.this, "Not Possible to Read", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "It was not Possible to Read", Toast.LENGTH_SHORT).show();
             }
             } else {
                 Toast.makeText(MainActivity.this, CommonStatusCodes.getStatusCodeString(resultCode), Toast.LENGTH_SHORT).show();

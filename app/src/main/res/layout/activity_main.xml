@@ -67,12 +67,12 @@
 
     <Button
         android:id="@+id/ocrStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/moneyInput"
-        android:layout_toRightOf="@+id/moneyInput"
-        android:onClick="ocrCapture"
-        android:text="Button" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/currency"
+        android:layout_toEndOf="@+id/moneyInput"
+        android:background="@drawable/camerabg"
+        android:onClick="ocrCapture" />
 
     <RadioGroup
         android:id="@+id/credDebRadioGroup"
