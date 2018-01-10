@@ -40,9 +40,6 @@ import java.io.InputStream;
 import static android.app.PendingIntent.getActivity;
 import static java.security.AccessController.getContext;
 
-/**
- * Created by Luiz on 04/12/2017.
- */
 
 public class BalanceUpdate {
 

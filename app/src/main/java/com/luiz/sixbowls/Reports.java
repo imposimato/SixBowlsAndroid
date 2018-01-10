@@ -22,14 +22,11 @@ import static com.luiz.sixbowls.MainActivity.parseDate;
 
 public class Reports extends AppCompatActivity implements DatePickerFragment.TheListener {
 
-    Button dateInput1, dateInput2;
+    Button dateInput1, dateInput2, graphicBt;
     TextView dateView1, dateView2;
     static TextView resultCredTV, resultDebTV, balanceTV;
     boolean aux1 = false;
     boolean aux2 = false;
-
-    double totalCred = 0;
-    double totalDeb = 0;
 
     Date date1 = new Date(), date2 = new Date();
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,6 +43,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
         dateInput1 = (Button) findViewById(R.id.btnDateReport1);
         dateInput2 = (Button) findViewById(R.id.btnDateReport2);
+        graphicBt = (Button) findViewById(R.id.graphicBt);
 
         dateView1 = (TextView) findViewById(R.id.txtViewDateReport1);
         dateView2 = (TextView) findViewById(R.id.txtViewDateReport2);

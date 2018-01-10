@@ -3,6 +3,7 @@
     package="com.luiz.sixbowls">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".StaticContext"
         android:allowBackup="true"
@@ -23,7 +24,8 @@
         <activity
             android:name=".Reports"
             android:screenOrientation="portrait" />
-        <activity android:name=".ocr.OcrCaptureActivity"></activity>
+        <activity android:name=".ocr.OcrCaptureActivity" />
+        <activity android:name=".GraphicActivity"></activity>
     </application>
 
 </manifest>
