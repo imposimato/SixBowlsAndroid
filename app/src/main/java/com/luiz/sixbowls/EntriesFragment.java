@@ -1,13 +1,11 @@
 package com.luiz.sixbowls;
 
-import android.app.Dialog;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -18,9 +16,6 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-import java.util.zip.Inflater;
-
 public class EntriesFragment extends ListFragment {
 
     // Attributes
@@ -30,6 +25,7 @@ public class EntriesFragment extends ListFragment {
     double totalCred = 0;
     double totalDeb = 0;
     String whereClause = "DATE BETWEEN ? AND ?";
+    String note;
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
     CursorAdapter listAdapter;
@@ -86,6 +82,23 @@ public class EntriesFragment extends ListFragment {
                     return true;
                 }
             });
+
+            listEntries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Cursor cursor1 = db.rawQuery("SELECT NOTE FROM INOUT WHERE _id = '" + String.valueOf(id) +"'", null);
+                    if (cursor1.moveToFirst()) {
+                        note = cursor1.getString(cursor1.getColumnIndex("NOTE"));
+                    }
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Observation")
+                            .setMessage(note)
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .create().show();
+                }
+            });
+
 
         } catch (Exception e){
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();

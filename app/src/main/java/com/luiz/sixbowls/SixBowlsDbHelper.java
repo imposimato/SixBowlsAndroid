@@ -11,7 +11,7 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
 
 
     private static final String DB_NAME = "sixBowls";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     public SixBowlsDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -29,6 +29,9 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 5){
+            db.execSQL("ALTER TABLE INOUT ADD COLUMN NOTE TEXT");
+        }
 
     }
 

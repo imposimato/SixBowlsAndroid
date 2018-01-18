@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     EditText moneyInput;
     Spinner spinner;
     RadioGroup radioGroup;
+    EditText obsText;
 
     SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity
 
     int spinnerItem = 0;
     double entry;
+    String observation;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
         credRB = (RadioButton) findViewById(R.id.credRB);
         debRB = (RadioButton) findViewById(R.id.debRB);
+        obsText = (EditText) findViewById(R.id.obsText);
         dbHelper = new SixBowlsDbHelper(this);
         db = dbHelper.getWritableDatabase();
         String[] bowlsStr = getResources().getStringArray(R.array.bowls);
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         dateView.setOnClickListener(onClickListener);
         dateInput.setOnClickListener(onClickListener);
 
-        moneyInput.setOnKeyListener(new View.OnKeyListener() {
+        View.OnKeyListener enterListener = new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -127,7 +130,10 @@ public class MainActivity extends AppCompatActivity
                 }
                 return false;
             }
-        });
+        };
+
+        moneyInput.setOnKeyListener(enterListener);
+        obsText.setOnKeyListener(enterListener);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -181,9 +187,12 @@ public class MainActivity extends AppCompatActivity
     public void insertEntry(View view){
         try{
             entry = Double.parseDouble(moneyInput.getText().toString());
+            observation = obsText.getText().toString();
             ContentValues entryValue = new ContentValues();
-            entryValue.put("ENTRY", entry);
+
             entryValue.put("DATE", dateInputDB);
+            entryValue.put("ENTRY", entry);
+            entryValue.put("NOTE", observation);
 
             if (credRB.isChecked())  {
                 entryValue.put("CREDDEB", "C");
@@ -196,6 +205,7 @@ public class MainActivity extends AppCompatActivity
 
             db.insert("INOUT", null, entryValue);
             moneyInput.setText(null);
+            obsText.setText(null);
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             Toast.makeText(MainActivity.this, "Entry Registered!", Toast.LENGTH_SHORT).show();

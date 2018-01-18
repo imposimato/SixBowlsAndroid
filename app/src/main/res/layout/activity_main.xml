@@ -125,11 +125,20 @@
         android:scaleX="1.5"
         android:scaleY="1.5" />
 
+    <EditText
+        android:id="@+id/obsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bowl"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingTop="5dp" />
+
     <Button
         android:id="@+id/insertEntryBt"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/bowl"
+        android:layout_below="@+id/obsText"
         android:layout_centerHorizontal="true"
         android:background="@drawable/registerbg"
         android:elevation="10dp"
