@@ -2,7 +2,6 @@ package com.luiz.sixbowls;
 
 // TODO: LAYOUT
 // TODO: Rodar BD backgroud
-// TODO: Swipe Views
 // TODO: Export/Import CSV file
 
 import android.app.Dialog;

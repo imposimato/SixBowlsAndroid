@@ -2,6 +2,7 @@ package com.luiz.sixbowls;
 
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -127,6 +128,14 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
 
             balanceUpdate.updateBalance(dt.format(date1), dt.format(date2));
         }
+    }
+    //TODO Corrigir esse metodo
+    public void generatePie(String dateStr1, String dateStr2){
+        Intent intent = new Intent(this, GraphicActivity.class);
+        intent.putExtra("date1", dateStr1);
+        intent.putExtra("date2", dateStr2);
+
+
     }
 
     @Override
