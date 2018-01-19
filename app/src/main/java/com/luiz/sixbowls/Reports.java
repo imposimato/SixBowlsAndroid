@@ -80,6 +80,13 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
                 aux2 = true;
             }
         });
+
+        graphicBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generatePie(dt.format(date1), dt.format(date2));
+            }
+        });
     }
 
     @Override
@@ -134,6 +141,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         Intent intent = new Intent(this, GraphicActivity.class);
         intent.putExtra("date1", dateStr1);
         intent.putExtra("date2", dateStr2);
+        startActivity(intent);
 
 
     }
