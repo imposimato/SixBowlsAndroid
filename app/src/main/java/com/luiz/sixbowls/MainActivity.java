@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         spinner = (Spinner) findViewById(R.id.bowl);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, bowls);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         spinner.setAdapter(arrayAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

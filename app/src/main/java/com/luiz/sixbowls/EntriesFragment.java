@@ -111,7 +111,7 @@ public class EntriesFragment extends ListFragment {
                 new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
                         "BOWL", "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
                 whereClause, new String[] {date1, date2},
-                null, null, "DATE");
+                null, null, "DATE DESC");
         CursorAdapter listAdapter2 = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
                 cursor,

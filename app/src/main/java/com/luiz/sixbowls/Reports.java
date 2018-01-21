@@ -18,7 +18,10 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
 import static com.luiz.sixbowls.MainActivity.parseDate;
 
 public class Reports extends AppCompatActivity implements DatePickerFragment.TheListener {
@@ -29,7 +32,8 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
     boolean aux1 = false;
     boolean aux2 = false;
 
-    Date date1 = new Date(), date2 = new Date();
+    Date date1, date2 = new Date();
+    Calendar calendar;
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
     SQLiteOpenHelper dbHelper;
@@ -42,10 +46,17 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
 
+        //Set to the first day of the month
+        calendar = new GregorianCalendar();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        date1 = calendar.getTime();
+
+        //Starting the buttons
         dateInput1 = (Button) findViewById(R.id.btnDateReport1);
         dateInput2 = (Button) findViewById(R.id.btnDateReport2);
         graphicBt = (Button) findViewById(R.id.graphicBt);
 
+        //Starting the Textviews and setting the values
         dateView1 = (TextView) findViewById(R.id.txtViewDateReport1);
         dateView2 = (TextView) findViewById(R.id.txtViewDateReport2);
         dateView1.setText(dtShow.format(date1));
@@ -136,7 +147,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
             balanceUpdate.updateBalance(dt.format(date1), dt.format(date2));
         }
     }
-    //TODO Corrigir esse metodo
+
     public void generatePie(String dateStr1, String dateStr2){
         Intent intent = new Intent(this, GraphicActivity.class);
         intent.putExtra("date1", dateStr1);

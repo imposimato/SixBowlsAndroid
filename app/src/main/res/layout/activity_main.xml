@@ -119,6 +119,7 @@
         android:id="@+id/bowl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
         android:layout_below="@+id/credDebRadioGroup"
         android:layout_centerHorizontal="true"
         android:padding="20dp"
