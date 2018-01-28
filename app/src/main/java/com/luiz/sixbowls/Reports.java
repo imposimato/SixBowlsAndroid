@@ -153,8 +153,6 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         intent.putExtra("date1", dateStr1);
         intent.putExtra("date2", dateStr2);
         startActivity(intent);
-
-
     }
 
     @Override

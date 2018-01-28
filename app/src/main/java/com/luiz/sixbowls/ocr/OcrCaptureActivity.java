@@ -311,6 +311,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
                 try{
+                    // TODO: IsAlpha
                     Double.parseDouble(text.getValue().toString());
                     Intent data = new Intent();
                     data.putExtra(TextBlockObject, text.getValue());

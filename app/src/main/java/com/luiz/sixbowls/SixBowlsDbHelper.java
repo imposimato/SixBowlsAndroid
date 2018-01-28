@@ -18,33 +18,13 @@ public class SixBowlsDbHelper extends SQLiteOpenHelper {
     }
 
 
-    public void SixBowlsDbHelper(){
-
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE INOUT (_id INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY DECIMAL(11,2), DATE INTEGER, CREDDEB TEXT, BOWL TEXT);");
+        db.execSQL("CREATE TABLE INOUT (_id INTEGER PRIMARY KEY AUTOINCREMENT, ENTRY DECIMAL(11,2), DATE INTEGER, CREDDEB TEXT, BOWL TEXT, NOTE TEXT);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 5){
-            db.execSQL("ALTER TABLE INOUT ADD COLUMN NOTE TEXT");
-        }
-
     }
-
-    public void insertEntry(SQLiteDatabase db, double entry){
-        ContentValues entryValue = new ContentValues();
-        entryValue.put("ENTRY", entry);
-        db.insert("INOUT", null, entryValue);
-    }
-
-    public void deleteEntry(SQLiteDatabase db, long id){
-        String string =String.valueOf(id);
-        db.execSQL("DELETE FROM favorite WHERE _id = '" + string + "'");
-    }
-
 
 }

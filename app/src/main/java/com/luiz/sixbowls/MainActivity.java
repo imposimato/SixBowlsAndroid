@@ -1,8 +1,9 @@
 package com.luiz.sixbowls;
 
 // TODO: LAYOUT
-// TODO: Rodar BD backgroud
-// TODO: Export/Import CSV file
+// TODO: Run DB backgroud
+// TODO: Strings in the Resources
+// TODO: Export/Import CSV file (Upload to Drive)
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -10,8 +11,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,10 +48,9 @@ public class MainActivity extends AppCompatActivity
     Button dateInput , insertEntryBt, ocrStart;
     RadioButton credRB, debRB;
     TextView dateView;
-    EditText moneyInput;
+    EditText moneyInput, obsText;
     Spinner spinner;
     RadioGroup radioGroup;
-    EditText obsText;
 
     SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
@@ -74,26 +76,29 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         dateInput = (Button) findViewById(R.id.dateInput);
         insertEntryBt = (Button) findViewById(R.id.insertEntryBt);
         dateView = (TextView) findViewById(R.id.dateTextView);
         dateView.setText(dtShow.format(currentDate));
         moneyInput = (EditText) findViewById(R.id.moneyInput);
+
         ocrStart = (Button) findViewById(R.id.ocrStart);
+
         radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
         credRB = (RadioButton) findViewById(R.id.credRB);
         debRB = (RadioButton) findViewById(R.id.debRB);
+
         obsText = (EditText) findViewById(R.id.obsText);
-        dbHelper = new SixBowlsDbHelper(this);
-        db = dbHelper.getWritableDatabase();
+
         String[] bowlsStr = getResources().getStringArray(R.array.bowls);
-        bowls = new ArrayList<String>();
+        bowls = new ArrayList<>();
         for (String string : bowlsStr){
             bowls.add(string);
         }
 
         spinner = (Spinner) findViewById(R.id.bowl);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, bowls);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, bowls);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
         spinner.setAdapter(arrayAdapter);
 
@@ -132,7 +137,6 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        moneyInput.setOnKeyListener(enterListener);
         obsText.setOnKeyListener(enterListener);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -185,30 +189,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void insertEntry(View view){
-        try{
-            entry = Double.parseDouble(moneyInput.getText().toString());
-            observation = obsText.getText().toString();
-            ContentValues entryValue = new ContentValues();
+        try {
+            new InsertEntry().execute();
 
-            entryValue.put("DATE", dateInputDB);
-            entryValue.put("ENTRY", entry);
-            entryValue.put("NOTE", observation);
-
-            if (credRB.isChecked())  {
-                entryValue.put("CREDDEB", "C");
-                entryValue.put("BOWL", "CREDIT");
-            }
-            if (debRB.isChecked()) {
-                entryValue.put("CREDDEB", "D");
-                entryValue.put("BOWL", bowls.get(spinnerItem));
-            }
-
-            db.insert("INOUT", null, entryValue);
-            moneyInput.setText(null);
-            obsText.setText(null);
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             Toast.makeText(MainActivity.this, "Entry Registered!", Toast.LENGTH_SHORT).show();
+
+            moneyInput.setText(null);
+            obsText.setText(null);
+
         } catch (Exception e) {
             Toast.makeText(this, "Something wrong is not right!", Toast.LENGTH_SHORT).show();
         }
@@ -216,8 +206,7 @@ public class MainActivity extends AppCompatActivity
 
     public void goToReportsAct(View view){
         try {
-            Intent it = new Intent(this, Reports.class);
-            startActivity(it);
+            startActivity(new Intent(this, Reports.class));
         } catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -256,9 +245,50 @@ public class MainActivity extends AppCompatActivity
                         .create()
                         .show();
                 return true;
+            case R.id.reports_menu:
+                startActivity(new Intent(this, Reports.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private class InsertEntry extends AsyncTask<Integer, Void, Boolean> {
+
+        ContentValues entryValue;
+
+        protected void onPreExecute() {
+
+            entry = Double.parseDouble(moneyInput.getText().toString());
+            observation = obsText.getText().toString();
+            entryValue = new ContentValues();
+
+            entryValue.put("DATE", dateInputDB);
+            entryValue.put("ENTRY", entry);
+            entryValue.put("NOTE", observation);
+
+            if (credRB.isChecked())  {
+                entryValue.put("CREDDEB", "C");
+                entryValue.put("BOWL", "CREDIT");
+            }
+
+            if (debRB.isChecked()) {
+                entryValue.put("CREDDEB", "D");
+                entryValue.put("BOWL", bowls.get(spinnerItem));
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... integers) {
+            try {
+                dbHelper = new SixBowlsDbHelper(getApplicationContext());
+                db = dbHelper.getWritableDatabase();
+                db.insert("INOUT", null, entryValue);
+                db.close();
+            } catch (SQLException e){
+                return false;
+            }
+            return null;
+        }
     }
 }

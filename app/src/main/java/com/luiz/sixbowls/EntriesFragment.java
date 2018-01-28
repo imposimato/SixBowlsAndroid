@@ -4,8 +4,10 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -22,12 +24,10 @@ public class EntriesFragment extends ListFragment {
     private Context mContext;
     private Cursor cursor;
     private String date1, date2;
-    double totalCred = 0;
-    double totalDeb = 0;
-    String whereClause = "DATE BETWEEN ? AND ?";
     String note;
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
+    protected boolean aux;
     CursorAdapter listAdapter;
     BalanceUpdate balanceUpdate;
 
@@ -61,20 +61,25 @@ public class EntriesFragment extends ListFragment {
 
             updateCursor();
 
+            // Erases and entry on Long Press an item from the listview
             listEntries.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, final long id) {
                     new AlertDialog.Builder(getContext())
-                            .setTitle("Delete Entry")
+                            .setTitle("Delete Entry?")
                             .setMessage("Do you really want to delete this entry?")
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    String string = String.valueOf(id);
-                                    db.execSQL("DELETE FROM INOUT WHERE _id = '" + string + "'");
-                                    updateCursor();
-                                    balanceUpdate.updateBalance(date1, date2);
-
+                                    aux = true;
+                                    try {
+                                        db.execSQL("DELETE FROM INOUT WHERE _id = '" + String.valueOf(id) + "'");
+                                        updateCursor();
+                                        balanceUpdate.updateBalance(date1, date2);
+                                    } catch (SQLException e) {
+                                        Toast.makeText(getContext(), "Database unavailable", Toast.LENGTH_SHORT).show();
+                                    }
+                                    aux = false;
                                 }})
                             .setNegativeButton(android.R.string.no, null)
                             .create().show();
@@ -82,16 +87,16 @@ public class EntriesFragment extends ListFragment {
                     return true;
                 }
             });
-
+            // Displays the Note added by the user to the entry
             listEntries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Cursor cursor1 = db.rawQuery("SELECT NOTE FROM INOUT WHERE _id = '" + String.valueOf(id) +"'", null);
-                    if (cursor1.moveToFirst()) {
-                        note = cursor1.getString(cursor1.getColumnIndex("NOTE"));
+                    Cursor cursorNote = db.rawQuery("SELECT NOTE FROM INOUT WHERE _id = '" + String.valueOf(id) +"'", null);
+                    if (cursorNote.moveToFirst()) {
+                        note = cursorNote.getString(cursorNote.getColumnIndex("NOTE"));
                     }
                     new AlertDialog.Builder(getContext())
-                            .setTitle("Observation")
+                            .setTitle("Note:")
                             .setMessage(note)
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setPositiveButton(android.R.string.yes, null)
@@ -99,27 +104,24 @@ public class EntriesFragment extends ListFragment {
                 }
             });
 
-
         } catch (Exception e){
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     public void updateCursor(){
-
         cursor = db.query("INOUT",
                 new String[]{"_id", "ENTRY", "printf('%.2f', ENTRY) as ENTRYF",
                         "BOWL", "DATE", "strftime('%d/%m/%Y', DATE) as DATEF", "CREDDEB"},
-                whereClause, new String[] {date1, date2},
+                "DATE BETWEEN ? AND ?", new String[] {date1, date2},
                 null, null, "DATE DESC");
-        CursorAdapter listAdapter2 = new android.widget.SimpleCursorAdapter(mContext,
+        listAdapter = new android.widget.SimpleCursorAdapter(mContext,
                 R.layout.fragment_item,
                 cursor,
                 new String[]{"DATEF", "BOWL", "ENTRYF", "CREDDEB"},
                 new int[]{R.id.dateReport, R.id.bowlReport, R.id.entryReport, R.id.credDebReport},
                 0);
-        listAdapter = listAdapter2;
-        listEntries.setAdapter(listAdapter2);
+        listEntries.setAdapter(listAdapter);
     }
 
     @Override
@@ -136,4 +138,6 @@ public class EntriesFragment extends ListFragment {
     public void setDate2(String date2) {
         this.date2 = date2;
     }
+
+
 }
