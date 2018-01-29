@@ -1,5 +1,7 @@
 package com.luiz.sixbowls;
 
+// TODO: Rever fundo
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,7 +37,6 @@ public class GraphicActivity extends AppCompatActivity {
 
     PieChart pieChartCurrent;
     BarChart barChartBalance;
-    TextView warningTextView;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
     private String date1, date2;
@@ -74,7 +75,7 @@ public class GraphicActivity extends AppCompatActivity {
         pieChartCurrent.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-
+                // TODO: Report by bowl
             }
 
             @Override
@@ -152,7 +153,7 @@ public class GraphicActivity extends AppCompatActivity {
         BarData data = new BarData(dataSet);
 
         barChartBalance.setData(data);
-        barChartBalance.setScaleY(1f);
+        barChartBalance.setTouchEnabled(false);
         barChartBalance.invalidate();
         barChartBalance.animateY(500);
 
