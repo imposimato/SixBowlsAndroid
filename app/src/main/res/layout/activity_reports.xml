@@ -29,9 +29,6 @@
             android:id="@+id/btnDateReport2"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_below="@+id/gridLayReport"
             android:layout_column="2"
             android:layout_columnWeight="1"
             android:background="@drawable/datebg"
@@ -43,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:layout_columnWeight="6"
-            android:layout_toEndOf="@+id/btnDateReport1" />
+            />
 
         <TextView
             android:id="@+id/txtViewDateReport2"
@@ -80,26 +77,32 @@
         <TextView
             android:id="@+id/resultCredTV"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/resultDebTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/resultCredTV" />
+            android:layout_below="@+id/resultCredTV"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/balanceTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/resultDebTV" />
+            android:layout_below="@+id/resultDebTV"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/graphicBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:text="Button" />
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/piechartbg"
+            android:padding="5dp" />
 
     </RelativeLayout>
 

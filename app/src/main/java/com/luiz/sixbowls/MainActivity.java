@@ -1,8 +1,7 @@
 package com.luiz.sixbowls;
 
-// TODO: LAYOUT
-// TODO: Run DB backgroud
 // TODO: Strings in the Resources
+// TODO: Menu
 // TODO: Export/Import CSV file (Upload to Drive)
 
 import android.app.Dialog;

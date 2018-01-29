@@ -68,8 +68,10 @@ public class BalanceUpdate {
 
         if (totalCred - totalDeb < 0) {
             Reports.balanceTV.setTextColor(Color.RED);
-        } else {
+        } else if (totalCred - totalDeb > 0) {
             Reports.balanceTV.setTextColor(Color.GREEN);
+        } else {
+            Reports.balanceTV.setTextColor(Color.GRAY);
         }
 
         Reports.balanceTV.setText("Balance : " + String.format("%.2f", (totalCred - totalDeb)));

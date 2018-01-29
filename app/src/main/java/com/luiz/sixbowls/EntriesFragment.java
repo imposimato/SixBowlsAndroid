@@ -65,7 +65,7 @@ public class EntriesFragment extends ListFragment {
             listEntries.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, final long id) {
-                    new AlertDialog.Builder(getContext())
+                    new AlertDialog.Builder(mContext)
                             .setTitle("Delete Entry?")
                             .setMessage("Do you really want to delete this entry?")
                             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -77,7 +77,7 @@ public class EntriesFragment extends ListFragment {
                                         updateCursor();
                                         balanceUpdate.updateBalance(date1, date2);
                                     } catch (SQLException e) {
-                                        Toast.makeText(getContext(), "Database unavailable", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "Database unavailable", Toast.LENGTH_SHORT).show();
                                     }
                                     aux = false;
                                 }})
@@ -95,7 +95,7 @@ public class EntriesFragment extends ListFragment {
                     if (cursorNote.moveToFirst()) {
                         note = cursorNote.getString(cursorNote.getColumnIndex("NOTE"));
                     }
-                    new AlertDialog.Builder(getContext())
+                    new AlertDialog.Builder(mContext)
                             .setTitle("Note:")
                             .setMessage(note)
                             .setIcon(android.R.drawable.ic_dialog_info)
@@ -138,6 +138,4 @@ public class EntriesFragment extends ListFragment {
     public void setDate2(String date2) {
         this.date2 = date2;
     }
-
-
 }
