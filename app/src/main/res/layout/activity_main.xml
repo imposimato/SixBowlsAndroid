@@ -11,25 +11,36 @@
     android:padding="20dp"
     tools:context="com.luiz.sixbowls.MainActivity">
 
-    <Button
-        android:id="@+id/dateInput"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/datebg"
-        android:textColor="@android:color/black" />
-
-    <TextView
-        android:id="@+id/dateTextView"
+    <RelativeLayout
+        android:id="@+id/layoutDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dateInput"
-        android:layout_toEndOf="@+id/dateInput"
-        android:padding="10dp"
-        android:paddingStart="20dp"
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/dateInput"
+            android:layout_toEndOf="@+id/dateInput"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="20dp" />
+
+        <Button
+            android:id="@+id/dateInput"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/datebg"
+            android:textColor="@android:color/black"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="20dp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/currency"
@@ -48,7 +59,7 @@
         android:id="@+id/moneyInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dateInput"
+        android:layout_below="@+id/layoutDate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:width="200dp"
@@ -72,7 +83,8 @@
         android:layout_alignTop="@+id/currency"
         android:layout_toEndOf="@+id/moneyInput"
         android:background="@drawable/camerabg"
-        android:onClick="ocrCapture" />
+        android:onClick="ocrCapture"
+        android:visibility="gone" />
 
     <RadioGroup
         android:id="@+id/credDebRadioGroup"

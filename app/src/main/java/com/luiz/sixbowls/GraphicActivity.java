@@ -1,6 +1,5 @@
 package com.luiz.sixbowls;
 
-// TODO: Rever fundo
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -46,6 +45,8 @@ public class GraphicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphic);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbHelper = new SixBowlsDbHelper(getApplicationContext());
         db = dbHelper.getWritableDatabase();
@@ -155,16 +156,8 @@ public class GraphicActivity extends AppCompatActivity {
         barChartBalance.setData(data);
         barChartBalance.setTouchEnabled(false);
         barChartBalance.invalidate();
-        barChartBalance.animateY(500);
+        barChartBalance.animateY(700);
 
-    }
-
-    public void setDate1(String date1) {
-        this.date1 = date1;
-    }
-
-    public void setDate2(String date2) {
-        this.date2 = date2;
     }
 
 }

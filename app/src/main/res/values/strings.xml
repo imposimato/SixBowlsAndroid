@@ -14,12 +14,17 @@
     <string name="education">Education</string>
     <string name="leisure">Leisure</string>
     <string name="gift">Gift</string>
-    <string name="aboutDescription">This App intend to help you to control your finances. It allows you to inform your income and outcame and also displays a balance in the period.</string>
+    <string name="aboutDescription">This App intend to help you to control your finances. It allows you to inform your income and outcome and also displays a balance in the period.</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="ok">OK</string>
     <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="ocr_success">Text read successfully</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nocredit">There is no CREDIT informed in this period</string>
+    <string name="reports">Reports</string>
+    <string name="title_activity_reports">Reports</string>
+    <string name="title_activity_graphcharts">Charts</string>
 
     <string-array name="bowls">
         <item>@string/basics</item>
@@ -30,8 +35,4 @@
         <item>@string/gift</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="nocredit">There is no CREDIT informed in this period</string>
-    <string name="reports">Reports</string>
 </resources>

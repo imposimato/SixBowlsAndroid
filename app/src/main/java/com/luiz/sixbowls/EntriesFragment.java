@@ -1,5 +1,6 @@
 package com.luiz.sixbowls;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,11 +36,14 @@ public class EntriesFragment extends ListFragment {
     private ListView listEntries;
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Set our context
-        mContext = getActivity();
 
         // Set up BalanceUpdateClass
         balanceUpdate = new BalanceUpdate();

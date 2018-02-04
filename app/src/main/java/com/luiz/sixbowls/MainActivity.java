@@ -14,6 +14,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         dateView.setText(dtShow.format(currentDate));
         moneyInput = (EditText) findViewById(R.id.moneyInput);
 
-        ocrStart = (Button) findViewById(R.id.ocrStart);
+        //ocrStart = (Button) findViewById(R.id.ocrStart);
 
         radioGroup = (RadioGroup) findViewById(R.id.credDebRadioGroup);
         credRB = (RadioButton) findViewById(R.id.credRB);

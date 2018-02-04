@@ -1,11 +1,12 @@
 package com.luiz.sixbowls;
 
+import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import static com.luiz.sixbowls.MainActivity.parseDate;
 
 public class Reports extends AppCompatActivity implements DatePickerFragment.TheListener {
@@ -29,10 +29,10 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
     boolean aux1 = false;
     boolean aux2 = false;
 
-    Date date1, date2 = new Date();
+    Date date1, date2;
     Calendar calendar;
-    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-    SimpleDateFormat dtShow = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat dt;
+    SimpleDateFormat dtShow;
     SQLiteOpenHelper dbHelper;
     SQLiteDatabase db;
 
@@ -43,10 +43,16 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //Set to the first day of the month
         calendar = new GregorianCalendar();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         date1 = calendar.getTime();
+        date2 = new Date();
+
+        dt = new SimpleDateFormat("yyyy-MM-dd");
+        dtShow = new SimpleDateFormat("dd/MM/yyyy");
 
         //Starting the buttons
         dateInput1 = (Button) findViewById(R.id.btnDateReport1);
@@ -156,7 +162,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menureports, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,6 +170,9 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
         switch (item.getItemId()) {
             case R.id.menuDelete:
                 Toast.makeText(this, "Longpress and Item in the list to delete it!", Toast.LENGTH_LONG).show();
+                return true;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -174,6 +183,7 @@ public class Reports extends AppCompatActivity implements DatePickerFragment.The
     public void onDestroy(){
         super.onDestroy();
         db.close();
+
     }
 
 }

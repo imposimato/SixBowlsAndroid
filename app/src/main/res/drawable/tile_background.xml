@@ -4,4 +4,4 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:src="@drawable/bg"
         android:tileMode="repeat"
-        android:alpha="0.3"/>
+        android:alpha="0.2"/>
